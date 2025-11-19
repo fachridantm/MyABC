@@ -14,8 +14,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
-// TODO 15: Implement debounce logic for clickable composables
-
 /**
  * A composable wrapper that provides a debounced click action to its [content].
  *

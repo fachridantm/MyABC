@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         startState = DeeplinkStartState.WARM_HOT_START,
                         navController = navController,
                         navigationViewModel = navigationViewModel,
-                        isLoggedIn = true, // TODO 14: Check if the user is logged in actually
+                        isLoggedIn = true, // TODO: Check if the user is logged in actually
                     )
                 }
             }
@@ -62,7 +62,6 @@ class MainActivity : ComponentActivity() {
             splashScreen.setKeepOnScreenCondition { navController.checkCurrentDestination<SplashScreenDestination>() }
 
             MyABCTheme {
-                // TODO 9: Put the AppNavigator and provide the navController to the AppNavigator from the LocalNavController
                 CompositionLocalProvider(
                     LocalNavController provides navController,
                 ) {
@@ -79,7 +78,7 @@ class MainActivity : ComponentActivity() {
                                 startState = deeplinkStartState,
                                 navController = navController,
                                 navigationViewModel = navigationViewModel,
-                                isLoggedIn = true, // TODO 14: Check if the user is logged in actually
+                                isLoggedIn = true, // TODO: Check if the user is logged in actually
                             )
                         }
                     }

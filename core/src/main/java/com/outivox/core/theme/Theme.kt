@@ -26,29 +26,31 @@ import com.outivox.core.component.BottomSheetHeaderState
 import com.outivox.core.component.DragHandleBottomSheet
 
 private val DarkColorScheme = darkColorScheme(
-    primary = BluePrimary,
-    secondary = BlueSecondary,
-    tertiary = BlueTertiary,
-    primaryContainer = PrimaryContainer,
-    secondaryContainer = SecondaryContainer,
-    tertiaryContainer = TertiaryContainer,
-    onPrimary = onPrimary,
-    onSecondary = onSecondary,
-    onTertiary = onTertiary,
-    background = onBackground,
+    primary = colorPrimary,
+    secondary = colorSecondary,
+    tertiary = colorTertiary,
+    primaryContainer = colorPrimaryContainer,
+    secondaryContainer = colorSecondaryContainer,
+    tertiaryContainer = colorTertiaryContainer,
+    onPrimary = colorOnPrimary,
+    onSecondary = colorOnSecondary,
+    onTertiary = colorOnTertiary,
+    background = colorBackground,
+    onBackground = colorOnBackground,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = BluePrimary,
-    secondary = BlueSecondary,
-    tertiary = BlueTertiary,
-    primaryContainer = PrimaryContainer,
-    secondaryContainer = SecondaryContainer,
-    tertiaryContainer = TertiaryContainer,
-    onPrimary = onPrimary,
-    onSecondary = onSecondary,
-    onTertiary = onTertiary,
-    background = onBackground,
+    primary = colorPrimary,
+    secondary = colorSecondary,
+    tertiary = colorTertiary,
+    primaryContainer = colorPrimaryContainer,
+    secondaryContainer = colorSecondaryContainer,
+    tertiaryContainer = colorTertiaryContainer,
+    onPrimary = colorOnPrimary,
+    onSecondary = colorOnSecondary,
+    onTertiary = colorOnTertiary,
+    background = colorBackground,
+    onBackground = colorOnBackground,
 )
 
 @Composable
@@ -93,7 +95,7 @@ fun MyABCBottomSheetTheme(
                 velocityThreshold = { 0f },
             ),
             onDismissRequest = {},
-            containerColor = PrimaryContainer,
+            containerColor = colorPrimaryContainer,
             dragHandle = { DragHandleBottomSheet() },
             shape = RoundedCornerShape(
                 topStart = 24.dp,

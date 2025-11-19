@@ -72,7 +72,7 @@ class SecondRoute (
         val navController = LocalNavController.current
         return BottomSheetFooterState(
             textPrimary = "Next",
-            onPrimaryClicked = {
+            onPrimaryButtonClicked = {
 //                Toast.makeText(context, "End of the route", Toast.LENGTH_SHORT).show()
                 onCancel()
                 navController.navigate(LaunchableSampleScreenDestination)

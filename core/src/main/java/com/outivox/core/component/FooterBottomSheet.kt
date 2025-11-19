@@ -14,16 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.core.theme.BluePrimary
 import com.outivox.core.theme.MyABCTheme
-import com.outivox.core.theme.onPrimary
+import com.outivox.core.theme.colorOnPrimary
+import com.outivox.core.theme.colorPrimary
 
 data class BottomSheetFooterState(
     val background: Color = Color.White,
     val textPrimary: String = "",
-    val textColorPrimary: Color = onPrimary,
-    val colorPrimary: Color = BluePrimary,
-    val onPrimaryClicked: () -> Unit = {},
+    val textColorPrimary: Color = colorOnPrimary,
+    val colorPrimaryButton: Color = colorPrimary,
+    val onPrimaryButtonClicked: () -> Unit = {},
 )
 
 @Composable
@@ -47,11 +47,11 @@ fun FooterBottomSheet(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorPrimary,
+                    backgroundColor = colorPrimaryButton,
                 ),
                 shape = RoundedCornerShape(12.dp),
                 contentPadding = PaddingValues(vertical = 16.dp),
-                onClick = onPrimaryClicked,
+                onClick = onPrimaryButtonClicked,
             ) {
                 Text(text = textPrimary, color = textColorPrimary)
             }

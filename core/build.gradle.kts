@@ -114,7 +114,6 @@ dependencies {
     testApi(libs.androidx.compose.test.manifest)
     testApi(libs.androidx.compose.test.junit4)
 
-    // TODO 3: Implement dependency navigation on build.gradle.kts (:app)
     // Compose Navigation
     api(libs.androidx.navigation.compose)
     api(libs.androidx.navigation.ui.ktx)

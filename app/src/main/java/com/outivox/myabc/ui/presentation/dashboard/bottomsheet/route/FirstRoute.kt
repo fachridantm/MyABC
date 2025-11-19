@@ -63,7 +63,7 @@ class FirstRoute(
         val navController = LocalBottomSheetNavController.current
         return BottomSheetFooterState(
             textPrimary = "Next",
-            onPrimaryClicked = {
+            onPrimaryButtonClicked = {
                 runCatching {
                     navController.navigate(NavRoute.SecondRoute.route)
                 }.onFailure {

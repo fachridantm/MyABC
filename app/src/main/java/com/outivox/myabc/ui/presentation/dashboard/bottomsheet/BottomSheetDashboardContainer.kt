@@ -19,7 +19,6 @@ fun BottomSheetDashboardContainer(
     showBottomSheet: Boolean = false,
     onCancel: () -> Unit
 ) {
-    // TODO 17: Define bottom sheet flow by also providing the navController for the BottomSheetFlow
     if (!showBottomSheet) return
     CompositionLocalProvider(LocalBottomSheetNavController provides rememberNavController()) {
         SampleBottomSheetFlow(
@@ -35,7 +34,6 @@ private fun SampleBottomSheetFlow(
     bottomSheetFlow: BottomSheetFlow = rememberBottomSheetFlow(),
     dashboardViewModel: DashboardViewModel = getOrNewViewModelStoreOwner(),
 ) {
-    // TODO 18: Implement BottomSheetFlowContent by also providing the routes & viewModel
     val sampleRoutes = remember {
         listOf(
             FirstRoute(

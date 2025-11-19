@@ -19,7 +19,7 @@ import com.outivox.core.component.BottomSheetFooterState
 import com.outivox.core.component.BottomSheetHeaderState
 import com.outivox.core.component.FooterBottomSheet
 import com.outivox.core.component.HeaderBottomSheet
-import com.outivox.core.theme.PrimaryContainer
+import com.outivox.core.theme.colorPrimaryContainer
 
 data class BottomSheetRoutes(
     val navRoute: String,
@@ -35,7 +35,7 @@ data class BottomSheetRoutes(
 
 @Composable
 fun BottomSheetFlowContent(
-    bottomSheetBackground: Color = PrimaryContainer,
+    bottomSheetBackground: Color = colorPrimaryContainer,
     bottomSheetFlow: BottomSheetFlow = rememberBottomSheetFlow(),
     routes: List<BottomSheetRoutes>,
     onCancel: () -> Unit,

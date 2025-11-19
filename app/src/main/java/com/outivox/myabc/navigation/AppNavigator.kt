@@ -11,7 +11,6 @@ import com.outivox.core.navigation.slideOutToStart
 import com.outivox.core.util.LocalNavController
 import com.outivox.myabc.ui.navigation.mainNavGraph
 
-// TODO 7: Create a navigator for the app and define the navigation graph
 @Composable
 fun AppNavigator() {
     val navController = LocalNavController.current

@@ -2,16 +2,25 @@ package com.outivox.core.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BluePrimary = Color(0xFFD2E4FF)
-val BlueSecondary = Color(0xFF99C2FF)
-val BlueTertiary = Color(0xFF004A99)
+// Primary
+val colorPrimary = Color(0xFF007BFF)
+val colorOnPrimary = Color(0xFFFFFFFF)
+val colorPrimaryContainer = Color(0xFFCCE5FF)
+val colorOnPrimaryContainer = Color(0xFF002766)
 
-val PrimaryContainer = Color(0xFFFDFBFF)
-val SecondaryContainer = Color(0xFFF5F0FF)
-val TertiaryContainer = Color(0xFFF0F0FF)
+// Secondary
+val colorSecondary = Color(0xFF6C757D)
+val colorOnSecondary = Color(0xFFFFFFFF)
+val colorSecondaryContainer = Color(0xFFE9ECEF)
+val colorOnSecondaryContainer = Color(0xFF343A40)
 
-val onPrimary = Color(0xFF001D36)
-val onSecondary = Color(0xFF001D36)
-val onTertiary = Color(0xFFFFFFFF)
+// Tertiary
+val colorTertiary = Color(0xFFE0F7FA)
+val colorOnTertiary = Color(0xFF212529)
+val colorTertiaryContainer = Color(0xFFF1F8F9)
+val colorOnTertiaryContainer = Color(0xFF495057)
 
-val onBackground = Color(0xFFFDFBFF)
+// Background
+val colorBackground = Color(0xFFF8F8F8)
+val colorOnBackground = Color(0xFF212121)
+

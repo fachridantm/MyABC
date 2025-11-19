@@ -23,7 +23,7 @@ import com.outivox.core.navigation.slideInFromEnd
 import com.outivox.core.navigation.slideInFromStart
 import com.outivox.core.navigation.slideOutToEnd
 import com.outivox.core.navigation.slideOutToStart
-import com.outivox.core.theme.PrimaryContainer
+import com.outivox.core.theme.colorPrimaryContainer
 import com.outivox.core.util.LocalBottomSheetNavController
 
 /**
@@ -71,7 +71,7 @@ fun rememberBottomSheetFlow(
 @Composable
 fun BaseBottomSheetFlow(
     modifier: Modifier = Modifier,
-    bottomSheetBackground: Color = PrimaryContainer,
+    bottomSheetBackground: Color = colorPrimaryContainer,
     bottomSheetFlow: BottomSheetFlow = rememberBottomSheetFlow(),
     onCancel: () -> Unit,
     configuration: BottomSheetFlowScope.() -> Unit,

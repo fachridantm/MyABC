@@ -80,7 +80,6 @@ fun SplashScreen(
                     }
                 }
             } else {
-                // TODO 10: Navigate to the dashboard screen with an argument
                 runCatching {
                     navController.navigate(DashboardScreenDestination(dataJson)) {
                         popUpTo(navController.graph.startDestinationId) {

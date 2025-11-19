@@ -2,8 +2,6 @@ package com.outivox.core.navigation
 
 import kotlinx.serialization.Serializable
 
-// TODO 4: Create an abstract class for navigation destinations
-
 /**
  * Base class for all destinations in the app
  *
