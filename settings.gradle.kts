@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MyABC (starter)"
+rootProject.name = "MyABC"
 include(":app")
 include(":authentication")
 include(":core")
