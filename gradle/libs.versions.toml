@@ -56,7 +56,7 @@ material3Adaptive = "1.3.0-alpha02"
 # Compose Navigation
 navigationKtx = "2.9.6"
 # Compose Navigation 3
-navigation3 = "1.0.0-rc01"
+navigation3 = "1.0.0"
 
 [libraries]
 # Android

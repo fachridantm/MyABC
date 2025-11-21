@@ -23,13 +23,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.bottomsheet.BaseBottomSheetRoute
-import com.outivox.core.bottomsheet.BottomSheetFlow
 import com.outivox.core.component.BottomSheetFooterState
 import com.outivox.core.component.BottomSheetHeaderState
 import com.outivox.core.theme.MyABCBottomSheetTheme
-import com.outivox.core.util.LocalBottomSheetNavController
+import com.outivox.core.util.LocalBottomSheetNavBackStack
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
@@ -39,7 +38,7 @@ class FirstRoute(
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {
     @Composable
-    override fun getNavRoute() = NavRoute.FirstRoute.route
+    override fun getNavRoute() = NavRoute.FirstRoute
 
     @Composable
     override fun getHeaderState(): BottomSheetHeaderState {
@@ -60,12 +59,12 @@ class FirstRoute(
     @Composable
     override fun getFooterState(): BottomSheetFooterState {
         val context = LocalContext.current
-        val navController = LocalBottomSheetNavController.current
+        val navBackStack = LocalBottomSheetNavBackStack.current
         return BottomSheetFooterState(
             textPrimary = "Next",
             onPrimaryButtonClicked = {
                 runCatching {
-                    navController.navigate(NavRoute.SecondRoute.route)
+                    navBackStack.add(NavRoute.SecondRoute)
                 }.onFailure {
                     Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
                     Log.e(TAG, it.message.orEmpty(), it)
@@ -76,16 +75,15 @@ class FirstRoute(
 
     @Composable
     override fun getContent(
-        bottomSheetFlow: BottomSheetFlow,
         viewModel: DashboardViewModel,
-        navBackStackEntry: NavBackStackEntry,
+        arguments: NavKey,
         sheetState: SheetState,
         scrollState: ScrollState,
         onCancel: () -> Unit,
     ) {
-        val navController = LocalBottomSheetNavController.current
+        val navBackStack = LocalBottomSheetNavBackStack.current
         FirstContent()
-        BackHandler(onBack = navController::popBackStack)
+        BackHandler(onBack = navBackStack::removeLastOrNull)
     }
 }
 

@@ -1,5 +1,6 @@
 package com.outivox.core.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @sample com.outivox.myabc.navigation.SplashScreenDestination
  */
 @Serializable
-abstract class NavigationDestination
+abstract class NavigationDestination : NavKey
 
 @Serializable
 abstract class LaunchableDestination : NavigationDestination()

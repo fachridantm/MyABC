@@ -20,11 +20,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.outivox.core.theme.MyABCTheme
+import com.outivox.core.theme.colorPrimaryContainer
 
 data class BottomSheetHeaderState(
     val title: String = "",
     val subtitle: String = "",
-    val background: Color = Color.White,
+    val background: Color = colorPrimaryContainer,
     val leadingIcon: @Composable (() -> Unit)? = null,
     val trailingIcon: @Composable (() -> Unit)? = null,
 )

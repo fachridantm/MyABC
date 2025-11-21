@@ -83,7 +83,7 @@ fun MyABCTheme(
 fun MyABCBottomSheetTheme(
     headerState: BottomSheetHeaderState,
     footerState: BottomSheetFooterState,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MyABCTheme {
         ModalBottomSheet(

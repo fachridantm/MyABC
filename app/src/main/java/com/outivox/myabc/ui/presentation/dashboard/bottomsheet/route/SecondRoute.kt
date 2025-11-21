@@ -22,31 +22,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.bottomsheet.BaseBottomSheetRoute
-import com.outivox.core.bottomsheet.BottomSheetFlow
 import com.outivox.core.component.BottomSheetFooterState
 import com.outivox.core.component.BottomSheetHeaderState
 import com.outivox.core.navigation.LaunchableSampleScreenDestination
 import com.outivox.core.theme.MyABCBottomSheetTheme
-import com.outivox.core.util.LocalBottomSheetNavController
-import com.outivox.core.util.LocalNavController
+import com.outivox.core.util.LocalBottomSheetNavBackStack
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
-class SecondRoute (
+class SecondRoute(
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {
     @Composable
-    override fun getNavRoute() = NavRoute.SecondRoute.route
+    override fun getNavRoute() = NavRoute.SecondRoute
 
     @Composable
     override fun getHeaderState(): BottomSheetHeaderState {
-        val navController = LocalBottomSheetNavController.current
+        val navBackStack = LocalBottomSheetNavBackStack.current
         return BottomSheetHeaderState(
             title = "Second route",
             leadingIcon = {
-                IconButton(onClick = navController::popBackStack) {
+                IconButton(onClick = navBackStack::removeLastOrNull) {
                     Icon(
                         modifier = Modifier.requiredSize(24.dp),
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -69,29 +68,28 @@ class SecondRoute (
     @Composable
     override fun getFooterState(): BottomSheetFooterState {
         val context = LocalContext.current
-        val navController = LocalNavController.current
+        val navBackStack = LocalNavBackStack.current
         return BottomSheetFooterState(
             textPrimary = "Next",
             onPrimaryButtonClicked = {
 //                Toast.makeText(context, "End of the route", Toast.LENGTH_SHORT).show()
                 onCancel()
-                navController.navigate(LaunchableSampleScreenDestination)
+                navBackStack.add(LaunchableSampleScreenDestination)
             }
         )
     }
 
     @Composable
     override fun getContent(
-        bottomSheetFlow: BottomSheetFlow,
         viewModel: DashboardViewModel,
-        navBackStackEntry: NavBackStackEntry,
+        arguments: NavKey,
         sheetState: SheetState,
         scrollState: ScrollState,
         onCancel: () -> Unit,
     ) {
-        val navController = LocalBottomSheetNavController.current
+        val navBackStack = LocalBottomSheetNavBackStack.current
         SecondContent()
-        BackHandler(onBack = navController::popBackStack)
+        BackHandler(onBack = navBackStack::removeLastOrNull)
     }
 }
 

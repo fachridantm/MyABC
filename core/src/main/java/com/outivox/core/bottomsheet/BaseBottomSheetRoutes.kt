@@ -4,12 +4,11 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.component.BottomSheetFooterState
 import com.outivox.core.component.BottomSheetHeaderState
-import com.outivox.core.util.LocalBottomSheetNavController
+import com.outivox.core.util.LocalBottomSheetNavBackStack
 
 /**
  * Interface for creating bottom sheet routes.
@@ -22,7 +21,6 @@ interface BottomSheetRoute<VM> {
     fun createRoute(
         onCancel: () -> Unit,
         viewModel: VM,
-        bottomSheetFlow: BottomSheetFlow,
     ): BottomSheetRoutes
 }
 
@@ -38,7 +36,7 @@ abstract class BaseBottomSheetRoute<VM> : BottomSheetRoute<VM> {
      * Returns the navigation route as a string.
      **/
     @Composable
-    protected abstract fun getNavRoute(): String
+    protected abstract fun getNavRoute(): NavKey
 
     /**
      * Returns the list of named navigation arguments for this route.
@@ -46,7 +44,7 @@ abstract class BaseBottomSheetRoute<VM> : BottomSheetRoute<VM> {
      * @return List of NamedNavArgument.
      **/
     @Composable
-    protected open fun getArguments(): List<NamedNavArgument> = emptyList()
+    protected open fun getMetadata(): Map<String, Any> = emptyMap()
 
     /**
      * Returns the header state for this route.
@@ -67,17 +65,15 @@ abstract class BaseBottomSheetRoute<VM> : BottomSheetRoute<VM> {
     /**
      * Composable function to define the content of the bottom sheet.
      *
-     * @param bottomSheetFlow The controller for the bottom sheet navigation.
      * @param viewModel The ViewModel associated with this route.
-     * @param navBackStackEntry The navigation back stack entry.
+     * @param arguments The navigation back stack entry.
      * @param sheetState The state of the bottom sheet.
      * @param onCancel The callback to be invoked when the cancel action is triggered.
      **/
     @Composable
     protected abstract fun getContent(
-        bottomSheetFlow: BottomSheetFlow,
         viewModel: VM,
-        navBackStackEntry: NavBackStackEntry,
+        arguments: NavKey,
         sheetState: SheetState,
         scrollState: ScrollState,
         onCancel: () -> Unit,
@@ -94,64 +90,58 @@ abstract class BaseBottomSheetRoute<VM> : BottomSheetRoute<VM> {
     /**
      * Returns the dismiss action for the bottom sheet.
      *
-     * @param bottomSheetFlow The controller for the bottom sheet navigation.
      * @param viewModel The ViewModel associated with this route.
      * @param onCancel The callback to be invoked when the cancel action is triggered.
      * @return Dismiss action as a lambda function.
      **/
     @Composable
     protected open fun onDragDismiss(
-        navController: NavHostController,
-        bottomSheetFlow: BottomSheetFlow,
+        navBackStack: NavBackStack<NavKey>,
         viewModel: VM,
         onCancel: () -> Unit,
     ): () -> Boolean = {
-        navController.popBackStack()
+        navBackStack.removeLastOrNull()
         false
     }
 
     /**
      * Returns the dismiss action for the grey area of the bottom sheet.
      *
-     * @param bottomSheetFlow The controller for the bottom sheet navigation.
      * @param viewModel The ViewModel associated with this route.
      * @param onCancel The callback to be invoked when the cancel action is triggered.
      * @return Dismiss action as a lambda function.
      **/
     @Composable
     protected open fun onGreyAreaDismiss(
-        navController: NavHostController,
-        bottomSheetFlow: BottomSheetFlow,
+        navBackStack: NavBackStack<NavKey>,
         viewModel: VM,
         onCancel: () -> Unit,
-    ): () -> Boolean = onDragDismiss(navController, bottomSheetFlow, viewModel, onCancel)
+    ): () -> Boolean = onDragDismiss(navBackStack, viewModel, onCancel)
 
     /**
      * Creates the bottom sheet route with the provided parameters.
      *
      * @param onCancel The callback to be invoked when the cancel action is triggered.
      * @param viewModel The ViewModel associated with this route.
-     * @param bottomSheetFlow The controller for the bottom sheet navigation.
      * @return BottomSheetRoutes configuration.
      **/
     @Composable
     override fun createRoute(
         onCancel: () -> Unit,
         viewModel: VM,
-        bottomSheetFlow: BottomSheetFlow,
     ): BottomSheetRoutes {
-        val navController = LocalBottomSheetNavController.current
+        val navBackStack = LocalBottomSheetNavBackStack.current
         return BottomSheetRoutes(
             navRoute = getNavRoute(),
-            arguments = getArguments(),
+            metadata = getMetadata(),
             headerState = getHeaderState(),
             footerState = getFooterState(),
-            content = { navBackStackEntry, sheetState, scrollState ->
-                getContent(bottomSheetFlow, viewModel, navBackStackEntry, sheetState, scrollState, onCancel)
+            content = { arguments, sheetState, scrollState ->
+                getContent(viewModel, arguments, sheetState, scrollState, onCancel)
             },
             isAddVerticalScroll = addVerticalScroll(),
-            onDragDismiss = onDragDismiss(navController, bottomSheetFlow, viewModel, onCancel),
-            onGreyAreaDismiss = onGreyAreaDismiss(navController, bottomSheetFlow, viewModel, onCancel),
+            onDragDismiss = onDragDismiss(navBackStack, viewModel, onCancel),
+            onGreyAreaDismiss = onGreyAreaDismiss(navBackStack, viewModel, onCancel),
         )
     }
 }

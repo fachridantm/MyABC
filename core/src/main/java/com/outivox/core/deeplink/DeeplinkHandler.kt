@@ -2,7 +2,8 @@ package com.outivox.core.deeplink
 
 import android.net.Uri
 import android.util.Log
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.navigation.NavigationDestination
 import com.outivox.core.navigation.NavigationViewModel
 import com.outivox.core.util.getQueryParameterBooleanOrNull
@@ -104,7 +105,7 @@ object DeeplinkHandler {
     private fun handleDeeplinkNavigation(
         deeplink: Deeplink,
         destination: NavigationDestination,
-        navController: NavHostController,
+        navController: NavBackStack<NavKey>,
         navigationViewModel: NavigationViewModel,
     ) {
         when (deeplink.viewLevel) {
@@ -115,11 +116,9 @@ object DeeplinkHandler {
 
             DeeplinkViewLevel.SCREEN -> {
                 runCatching {
-                    navController.navigate(destination) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
+                    navController.apply {
+                        clear()
+                        add(destination)
                     }
                 }.onFailure {
                     Log.e(TAG, it.message.orEmpty(), it)
@@ -134,7 +133,7 @@ object DeeplinkHandler {
         uri: Uri,
         isLoggedIn: Boolean,
         startState: DeeplinkStartState,
-        navController: NavHostController,
+        navBackStack: NavBackStack<NavKey>,
         navigationViewModel: NavigationViewModel,
     ) {
         val deeplink = mapDeeplink(uri)
@@ -152,7 +151,7 @@ object DeeplinkHandler {
                     when (deeplink.accessLevel) {
                         DeeplinkAccessLevel.POST_LOGIN -> {
                             if (isLoggedIn) {
-                                handleDeeplinkNavigation(deeplink, destination, navController, navigationViewModel)
+                                handleDeeplinkNavigation(deeplink, destination, navBackStack, navigationViewModel)
                             } else {
                                 // Save the deeplink first, so that it can be processed after login.
                                 navigationViewModel.saveDeeplink(deeplink)
@@ -160,7 +159,7 @@ object DeeplinkHandler {
                         }
 
                         DeeplinkAccessLevel.PRE_LOGIN -> {
-                            handleDeeplinkNavigation(deeplink, destination, navController, navigationViewModel)
+                            handleDeeplinkNavigation(deeplink, destination, navBackStack, navigationViewModel)
                         }
 
                         DeeplinkAccessLevel.INVALID -> {

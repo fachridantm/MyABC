@@ -3,26 +3,23 @@ package com.outivox.myabc.ui.presentation.dashboard.bottomsheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
-import androidx.navigation.compose.rememberNavController
-import com.outivox.core.bottomsheet.BottomSheetFlow
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.outivox.core.bottomsheet.BottomSheetFlowContent
-import com.outivox.core.bottomsheet.rememberBottomSheetFlow
-import com.outivox.core.util.LocalBottomSheetNavController
+import com.outivox.core.util.LocalBottomSheetNavBackStack
 import com.outivox.core.util.getOrNewViewModelStoreOwner
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
+import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.FirstRoute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.SecondRoute
 
 @Composable
 fun BottomSheetDashboardContainer(
-    bottomSheetFlow: BottomSheetFlow= rememberBottomSheetFlow(),
     showBottomSheet: Boolean = false,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     if (!showBottomSheet) return
-    CompositionLocalProvider(LocalBottomSheetNavController provides rememberNavController()) {
+    CompositionLocalProvider(LocalBottomSheetNavBackStack provides rememberNavBackStack(NavRoute.FirstRoute)) {
         SampleBottomSheetFlow(
-            bottomSheetFlow = bottomSheetFlow,
             onCancel = onCancel
         )
     }
@@ -31,7 +28,6 @@ fun BottomSheetDashboardContainer(
 @Composable
 private fun SampleBottomSheetFlow(
     onCancel: () -> Unit = {},
-    bottomSheetFlow: BottomSheetFlow = rememberBottomSheetFlow(),
     dashboardViewModel: DashboardViewModel = getOrNewViewModelStoreOwner(),
 ) {
     val sampleRoutes = remember {
@@ -47,11 +43,9 @@ private fun SampleBottomSheetFlow(
         route.createRoute(
             onCancel = onCancel,
             viewModel = dashboardViewModel,
-            bottomSheetFlow = bottomSheetFlow
         )
     }
     BottomSheetFlowContent(
-        bottomSheetFlow = bottomSheetFlow,
         routes = sampleRoutes,
         onCancel = onCancel
     )

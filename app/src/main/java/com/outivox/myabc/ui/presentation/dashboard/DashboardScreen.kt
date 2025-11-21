@@ -1,6 +1,9 @@
 package com.outivox.myabc.ui.presentation.dashboard
 
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,11 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.core.bottomsheet.rememberBottomSheetFlow
+import com.outivox.core.navigation.NotificationScreenDestination
 import com.outivox.core.theme.MyABCTheme
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.R
 import com.outivox.myabc.ui.atoms.Avatar
 import com.outivox.myabc.ui.molecules.MenuCardAttribute
@@ -39,7 +44,8 @@ import com.outivox.myabc.ui.organisms.FavoriteSectionResourceItemAttribute
 import com.outivox.myabc.ui.organisms.MenuGrid
 import com.outivox.myabc.ui.organisms.MenuGridAttribute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.BottomSheetDashboardContainer
-import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
+
+private const val TAG = "DashboardScreen"
 
 data class DashboardScreenState(
     @DrawableRes val userAvatar: Int = 0,
@@ -53,19 +59,20 @@ data class DashboardScreenState(
 
 sealed class DashboardScreenEvent {
     data object OnBackPressed : DashboardScreenEvent()
-    data object OnNotificationClicked : DashboardScreenEvent()
     data object OnMenuClicked : DashboardScreenEvent()
     data object OnViewAllClicked : DashboardScreenEvent()
     data object OnManageClicked : DashboardScreenEvent()
     data object OnRepeatClicked : DashboardScreenEvent()
-    data object OnBottomNavClicked : DashboardScreenEvent()
 }
 
 @Composable
 fun DashboardScreen(
     state: DashboardScreenState = DashboardScreenState(),
-    event: (DashboardScreenEvent) -> Unit = {},
 ) {
+    val activity = LocalActivity.current
+    val context = LocalContext.current
+    val navBackStack = LocalNavBackStack.current
+
     var showBottomSheet by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -76,7 +83,12 @@ fun DashboardScreen(
                 userAvatar = state.userAvatar,
                 userName = state.userName,
                 onClickNotification = {
-                    event(DashboardScreenEvent.OnNotificationClicked)
+                    runCatching {
+                        navBackStack.add(NotificationScreenDestination)
+                    }.onFailure {
+                        Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, it.message.orEmpty(), it)
+                    }
                 },
             )
         },
@@ -84,29 +96,44 @@ fun DashboardScreen(
             DashboardScreenContent(
                 modifier = Modifier.padding(it),
                 state = state,
-                event = event,
+                event = { screenEvent ->
+                    when (screenEvent) {
+                        DashboardScreenEvent.OnManageClicked -> {
+                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                        }
+
+                        DashboardScreenEvent.OnMenuClicked -> {
+                            showBottomSheet = true
+                        }
+
+                        DashboardScreenEvent.OnRepeatClicked -> {
+                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                        }
+
+                        DashboardScreenEvent.OnViewAllClicked -> {
+                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                        }
+
+                        DashboardScreenEvent.OnBackPressed -> {
+                            activity?.finishAndRemoveTask()
+                        }
+                    }
+                },
             )
         },
         bottomBar = {
             BottomNavBar(
                 onClick = {
-                    event(DashboardScreenEvent.OnBottomNavClicked)
+                    Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
                 },
             )
         },
     )
 
     BottomSheetDashboardContainer(
-        bottomSheetFlow = rememberBottomSheetFlow(
-            startDestination = NavRoute.FirstRoute.route
-        ),
         showBottomSheet = showBottomSheet,
         onCancel = { showBottomSheet = false }
     )
-
-    BackHandler {
-        event(DashboardScreenEvent.OnBackPressed)
-    }
 }
 
 @Composable
@@ -145,6 +172,9 @@ private fun DashboardScreenContent(
     state: DashboardScreenState,
     event: (DashboardScreenEvent) -> Unit,
 ) {
+    BackHandler {
+        event(DashboardScreenEvent.OnBackPressed)
+    }
     LazyColumn(
         modifier = modifier,
     ) {

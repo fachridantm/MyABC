@@ -5,15 +5,17 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.outivox.core.navigation.LaunchableLoginScreenDestination
 import com.outivox.core.theme.MyABCTheme
-import com.outivox.core.util.LocalNavController
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.core.util.checkPreviousDestination
 import com.outivox.core.util.checkPreviousDestionationIsNull
 
@@ -22,20 +24,23 @@ private const val TAG = "SampleScreen"
 @Composable
 fun SampleScreen() {
     val activity = LocalActivity.current
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     SampleScreenContent()
     BackHandler {
-        if (navController.checkPreviousDestination<LaunchableLoginScreenDestination>() || navController.checkPreviousDestionationIsNull()) {
+        if (navBackStack.checkPreviousDestination(LaunchableLoginScreenDestination) || navBackStack.checkPreviousDestionationIsNull()) {
             activity?.finishAndRemoveTask()
         } else {
-            navController.popBackStack()
+            navBackStack.removeLastOrNull()
         }
     }
 }
 
 @Composable
 private fun SampleScreenContent() {
-    Scaffold { innerPadding ->
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        containerColor = Color.White,
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()

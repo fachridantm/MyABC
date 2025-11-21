@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.R
 import com.outivox.myabc.ui.organisms.HeaderPage
 import com.outivox.myabc.ui.organisms.NotificationResourceItemAttribute
@@ -29,8 +30,9 @@ sealed class NotificationScreenEvent {
 @Composable
 fun NotificationScreen(
     state: NotificationScreenState = NotificationScreenState(),
-    event: (NotificationScreenEvent) -> Unit = {},
 ) {
+    val navBackStack = LocalNavBackStack.current
+
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         containerColor = Color.White,
@@ -39,7 +41,7 @@ fun NotificationScreen(
                 title = "Notifications",
                 leadingIconRes = R.drawable.ic_arrow_left,
                 onClickLeadingIcon = {
-                    event(NotificationScreenEvent.OnBackPressed)
+                    navBackStack.removeLastOrNull()
                 },
             )
         },
@@ -47,13 +49,16 @@ fun NotificationScreen(
             NotificationScreenContent(
                 modifier = Modifier.padding(it),
                 state = state,
-                event = event,
+                event = { screenEvent ->
+                    when (screenEvent) {
+                        NotificationScreenEvent.OnBackPressed -> {
+                            navBackStack.removeLastOrNull()
+                        }
+                    }
+                },
             )
         },
     )
-    BackHandler {
-        event(NotificationScreenEvent.OnBackPressed)
-    }
 }
 
 
@@ -63,6 +68,9 @@ private fun NotificationScreenContent(
     state: NotificationScreenState,
     event: (NotificationScreenEvent) -> Unit,
 ) {
+    BackHandler {
+        event(NotificationScreenEvent.OnBackPressed)
+    }
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),

@@ -13,7 +13,7 @@ import com.outivox.core.navigation.DashboardScreenDestination
 import com.outivox.core.navigation.LaunchableLoginScreenDestination
 import com.outivox.core.navigation.NavigationViewModel
 import com.outivox.core.util.JsonExtensions.toJson
-import com.outivox.core.util.LocalNavController
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.core.util.data
 import com.outivox.core.util.getOrNewViewModelStoreOwner
 import com.outivox.core.util.isSuccess
@@ -23,12 +23,12 @@ private const val TAG = "SplashScreen"
 @Composable
 fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel(),
-    navigationViewModel: NavigationViewModel = getOrNewViewModelStoreOwner()
+    navigationViewModel: NavigationViewModel = getOrNewViewModelStoreOwner(),
 ) {
     val initState by splashViewModel.initState.collectAsStateWithLifecycle()
     val deeplink by navigationViewModel.deeplink.collectAsStateWithLifecycle()
 
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
@@ -46,11 +46,9 @@ fun SplashScreen(
                             // Navigate to the destination
                             deeplinkData.destination?.let { destination ->
                                 runCatching {
-                                    navController.navigate(destination) {
-                                        popUpTo(navController.graph.startDestinationId) {
-                                            inclusive = true
-                                        }
-                                        launchSingleTop = true
+                                    navBackStack.apply {
+                                        clear()
+                                        add(destination)
                                     }
                                 }.onFailure {
                                     Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
@@ -60,20 +58,20 @@ fun SplashScreen(
                                 }
                             }
                         }
+
                         DeeplinkAccessLevel.POST_LOGIN -> {
                             // Navigate to login first, then to the destination.
                             runCatching {
-                                navController.navigate(LaunchableLoginScreenDestination) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        inclusive = true
-                                    }
-                                    launchSingleTop = true
+                                navBackStack.apply {
+                                    clear()
+                                    add(LaunchableLoginScreenDestination)
                                 }
                             }.onFailure {
                                 Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
                                 Log.e(TAG, it.message.orEmpty(), it)
                             }
                         }
+
                         DeeplinkAccessLevel.INVALID -> {
                             Log.e(TAG, "Invalid deeplink access level: $accessLevel")
                         }
@@ -81,11 +79,9 @@ fun SplashScreen(
                 }
             } else {
                 runCatching {
-                    navController.navigate(DashboardScreenDestination(dataJson)) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
+                    navBackStack.apply {
+                        clear()
+                        add(DashboardScreenDestination(dataJson))
                     }
                 }.onFailure {
                     Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()

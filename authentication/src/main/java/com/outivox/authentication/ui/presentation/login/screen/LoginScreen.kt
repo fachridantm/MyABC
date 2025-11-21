@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.outivox.authentication.R
@@ -19,7 +20,7 @@ import com.outivox.core.deeplink.DeeplinkHandler
 import com.outivox.core.deeplink.DeeplinkStartState
 import com.outivox.core.navigation.NavigationViewModel
 import com.outivox.core.theme.MyABCTheme
-import com.outivox.core.util.LocalNavController
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.core.util.LocalePreview
 import com.outivox.core.util.checkPreviousDestionationIsNull
 import com.outivox.core.util.getOrNewViewModelStoreOwner
@@ -31,7 +32,7 @@ fun LoginScreen(
     navigationViewModel: NavigationViewModel = getOrNewViewModelStoreOwner(),
 ) {
     val activity = LocalActivity.current
-    val navController = LocalNavController.current
+    val navBackStack = LocalNavBackStack.current
 
     val deeplink by navigationViewModel.deeplink.collectAsStateWithLifecycle()
 
@@ -41,7 +42,7 @@ fun LoginScreen(
                 DeeplinkHandler.handleDeeplink(
                     uri = uri,
                     startState = DeeplinkStartState.WARM_HOT_START,
-                    navController = navController,
+                    navBackStack = navBackStack,
                     navigationViewModel = navigationViewModel,
                     isLoggedIn = true
                 )
@@ -49,10 +50,10 @@ fun LoginScreen(
         }
     )
     BackHandler {
-        if (navController.checkPreviousDestionationIsNull()) {
+        if (navBackStack.checkPreviousDestionationIsNull()) {
             activity?.finishAndRemoveTask()
         } else {
-            navController.popBackStack()
+            navBackStack.removeLastOrNull()
         }
     }
 }
@@ -61,7 +62,9 @@ fun LoginScreen(
 private fun LoginScreenContent(
     onLoginClicked: () -> Unit = {},
 ) {
-    Scaffold { innerPadding ->
+    Scaffold(
+        containerColor = Color.White,
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()

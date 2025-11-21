@@ -1,12 +1,12 @@
 package com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation
 
-enum class SampleNavRoute {
-    FIRST_ROUTE,
-    SECOND_ROUTE,
-}
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-sealed class NavRoute(val route: String) {
-    data object FirstRoute : NavRoute(SampleNavRoute.FIRST_ROUTE.name)
+sealed class NavRoute : NavKey {
+    @Serializable
+    data object FirstRoute : NavRoute()
 
-    data object SecondRoute : NavRoute(SampleNavRoute.SECOND_ROUTE.name)
+    @Serializable
+    data object SecondRoute : NavRoute()
 }

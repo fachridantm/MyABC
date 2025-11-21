@@ -1,17 +1,12 @@
 package com.outivox.myabc.ui.navigation
 
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.LocalActivity
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.navigation.DashboardScreenDestination
 import com.outivox.core.navigation.LaunchableSampleScreenDestination
 import com.outivox.core.navigation.NotificationScreenDestination
 import com.outivox.core.navigation.SplashScreenDestination
-import com.outivox.core.util.LocalNavController
 import com.outivox.myabc.R
 import com.outivox.myabc.ui.molecules.MenuCardAttribute
 import com.outivox.myabc.ui.organisms.BillSectionResourceItemAttribute
@@ -19,29 +14,24 @@ import com.outivox.myabc.ui.organisms.FavoriteSectionResourceItemAttribute
 import com.outivox.myabc.ui.organisms.NotificationResourceItemAttribute
 import com.outivox.myabc.ui.organisms.NotificationSectionAttribute
 import com.outivox.myabc.ui.presentation.dashboard.DashboardScreen
-import com.outivox.myabc.ui.presentation.dashboard.DashboardScreenEvent
 import com.outivox.myabc.ui.presentation.dashboard.DashboardScreenState
 import com.outivox.myabc.ui.presentation.notification.NotificationScreen
-import com.outivox.myabc.ui.presentation.notification.NotificationScreenEvent
 import com.outivox.myabc.ui.presentation.notification.NotificationScreenState
 import com.outivox.myabc.ui.presentation.sample.SampleScreen
 import com.outivox.myabc.ui.presentation.splash.SplashScreen
 
 private const val TAG = "MainNavGraph"
 
-fun NavGraphBuilder.mainNavGraph() {
-    composable<LaunchableSampleScreenDestination> {
+fun EntryProviderScope<NavKey>.mainNavGraph() {
+    entry<LaunchableSampleScreenDestination> {
         SampleScreen()
     }
 
-    composable<SplashScreenDestination> {
+    entry<SplashScreenDestination> {
         SplashScreen()
     }
 
-    composable<DashboardScreenDestination> {
-        val activity = LocalActivity.current
-        val context = LocalContext.current
-        val navController = LocalNavController.current
+    entry<DashboardScreenDestination> {
         DashboardScreen(
             state = DashboardScreenState(
                 userAvatar = R.drawable.img_man_side_view,
@@ -95,47 +85,10 @@ fun NavGraphBuilder.mainNavGraph() {
                     ),
                 ),
             ),
-            event = { screenEvent ->
-                when (screenEvent) {
-                    is DashboardScreenEvent.OnNotificationClicked -> {
-                        runCatching {
-                            navController.navigate(NotificationScreenDestination)
-                        }.onFailure {
-                            Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
-                            Log.e(TAG, it.message.orEmpty(), it)
-                        }
-                    }
-
-                    DashboardScreenEvent.OnBottomNavClicked -> {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
-                    }
-
-                    DashboardScreenEvent.OnManageClicked -> {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
-                    }
-
-                    DashboardScreenEvent.OnMenuClicked -> {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
-                    }
-
-                    DashboardScreenEvent.OnRepeatClicked -> {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
-                    }
-
-                    DashboardScreenEvent.OnViewAllClicked -> {
-                        Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
-                    }
-
-                    DashboardScreenEvent.OnBackPressed -> {
-                        activity?.finishAndRemoveTask()
-                    }
-                }
-            }
         )
     }
 
-    composable<NotificationScreenDestination> {
-        val navController = LocalNavController.current
+    entry<NotificationScreenDestination> {
         NotificationScreen(
             state = NotificationScreenState(
                 notificationList = listOf(
@@ -188,13 +141,6 @@ fun NavGraphBuilder.mainNavGraph() {
                     ),
                 ),
             ),
-            event = { screenEvent ->
-                when (screenEvent) {
-                    NotificationScreenEvent.OnBackPressed -> {
-                        navController.popBackStack()
-                    }
-                }
-            }
         )
     }
 }

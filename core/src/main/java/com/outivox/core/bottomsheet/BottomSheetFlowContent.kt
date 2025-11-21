@@ -13,8 +13,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation3.runtime.NavKey
 import com.outivox.core.component.BottomSheetFooterState
 import com.outivox.core.component.BottomSheetHeaderState
 import com.outivox.core.component.FooterBottomSheet
@@ -22,12 +21,12 @@ import com.outivox.core.component.HeaderBottomSheet
 import com.outivox.core.theme.colorPrimaryContainer
 
 data class BottomSheetRoutes(
-    val navRoute: String,
-    val arguments: List<NamedNavArgument>? = null,
+    val navRoute: NavKey,
+    val metadata: Map<String, Any> = emptyMap(),
     val title: String = "",
     val headerState: BottomSheetHeaderState,
     val footerState: BottomSheetFooterState,
-    val content: @Composable ((NavBackStackEntry, SheetState, ScrollState) -> Unit),
+    val content: @Composable ((NavKey, SheetState, ScrollState) -> Unit),
     var isAddVerticalScroll: Boolean = true,
     val onDragDismiss: () -> Boolean = { true },
     val onGreyAreaDismiss: () -> Boolean = onDragDismiss,
@@ -36,14 +35,12 @@ data class BottomSheetRoutes(
 @Composable
 fun BottomSheetFlowContent(
     bottomSheetBackground: Color = colorPrimaryContainer,
-    bottomSheetFlow: BottomSheetFlow = rememberBottomSheetFlow(),
     routes: List<BottomSheetRoutes>,
     onCancel: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     BaseBottomSheetFlow(
-        bottomSheetFlow = bottomSheetFlow,
         bottomSheetBackground = bottomSheetBackground,
         onCancel = onCancel,
     ) {
@@ -51,10 +48,10 @@ fun BottomSheetFlowContent(
             routes.forEach { bottomSheetState ->
                 route(
                     route = bottomSheetState.navRoute,
-                    arguments = bottomSheetState.arguments,
+                    metadata = bottomSheetState.metadata,
                     onDragDismiss = bottomSheetState.onDragDismiss,
                     onGreyAreaDismiss = bottomSheetState.onGreyAreaDismiss,
-                ) { sheetState, navBackStackEntry ->
+                ) { sheetState, arguments ->
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
@@ -75,7 +72,7 @@ fun BottomSheetFlowContent(
                                     }
                                 },
                             ) {
-                                bottomSheetState.content.invoke(navBackStackEntry, sheetState, scrollState)
+                                bottomSheetState.content.invoke(arguments, sheetState, scrollState)
                             }
                         }
 
