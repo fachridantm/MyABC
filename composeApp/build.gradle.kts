@@ -32,6 +32,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-DEBUG"
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -82,6 +88,9 @@ kotlin {
             implementation(project(":core"))
         }
         androidMain.dependencies {
+            implementation(project(":core"))
+        }
+        iosMain.dependencies {
             implementation(project(":core"))
         }
     }

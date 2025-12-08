@@ -16,6 +16,7 @@ import com.outivox.myabc.util.navKeySerializer
 fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin()
+        enforceStrictPlistSanityCheck = false
     }
 ) {
     val savedStateConfiguration = SavedStateConfiguration {

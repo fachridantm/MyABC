@@ -7,20 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		102E22042EE57F2900284365 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		102E22052EE57FD200284365 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = iosApp.app; path = "/Users/fachridantm/AndroidStudioProjects/MyABC-Starter/iosApp/build/Debug-iphoneos/iosApp.app"; sourceTree = "<absolute>"; };
+		100DBDD22EE752A600C59A1C /* myABC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myABC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		102E21F12EE57DE100284365 /* iosApp */ = {
+		100DBDD42EE752A600C59A1C /* myABC */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = iosApp;
+			path = myABC;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		102E21EC2EE57DE100284365 /* Frameworks */ = {
+		100DBDCF2EE752A600C59A1C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -30,84 +29,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		102E21E62EE57DE100284365 = {
+		100DBDC92EE752A600C59A1C = {
 			isa = PBXGroup;
 			children = (
-				102E21F12EE57DE100284365 /* iosApp */,
-				102E22022EE57EF900284365 /* Config */,
+				100DBDD42EE752A600C59A1C /* myABC */,
+				100DBDD32EE752A600C59A1C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		102E22022EE57EF900284365 /* Config */ = {
+		100DBDD32EE752A600C59A1C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				102E22042EE57F2900284365 /* Config.xcconfig */,
+				100DBDD22EE752A600C59A1C /* myABC.app */,
 			);
-			path = Config;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		102E21EE2EE57DE100284365 /* iosApp */ = {
+		100DBDD12EE752A600C59A1C /* myABC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 102E21FA2EE57DE200284365 /* Build configuration list for PBXNativeTarget "iosApp" */;
+			buildConfigurationList = 100DBDDD2EE752A700C59A1C /* Build configuration list for PBXNativeTarget "myABC" */;
 			buildPhases = (
-				102E21FD2EE57DF900284365 /* Compile Kotlin Framework */,
-				102E21EB2EE57DE100284365 /* Sources */,
-				102E21EC2EE57DE100284365 /* Frameworks */,
-				102E21ED2EE57DE100284365 /* Resources */,
+				10A227492EE752FD00D08F6B /* Compile Kotlin Framework */,
+				100DBDCE2EE752A600C59A1C /* Sources */,
+				100DBDCF2EE752A600C59A1C /* Frameworks */,
+				100DBDD02EE752A600C59A1C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				102E21F12EE57DE100284365 /* iosApp */,
+				100DBDD42EE752A600C59A1C /* myABC */,
 			);
-			name = iosApp;
+			name = myABC;
 			packageProductDependencies = (
 			);
-			productName = iosApp;
-			productReference = 102E22052EE57FD200284365 /* iosApp.app */;
+			productName = myABC;
+			productReference = 100DBDD22EE752A600C59A1C /* myABC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		102E21E72EE57DE100284365 /* Project object */ = {
+		100DBDCA2EE752A600C59A1C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
-					102E21EE2EE57DE100284365 = {
+					100DBDD12EE752A600C59A1C = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
 			};
-			buildConfigurationList = 102E21EA2EE57DE100284365 /* Build configuration list for PBXProject "iosApp" */;
+			buildConfigurationList = 100DBDCD2EE752A600C59A1C /* Build configuration list for PBXProject "myABC" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 102E21E62EE57DE100284365;
+			mainGroup = 100DBDC92EE752A600C59A1C;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 102E21E62EE57DE100284365;
+			productRefGroup = 100DBDD32EE752A600C59A1C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				102E21EE2EE57DE100284365 /* iosApp */,
+				100DBDD12EE752A600C59A1C /* myABC */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		102E21ED2EE57DE100284365 /* Resources */ = {
+		100DBDD02EE752A600C59A1C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -117,7 +116,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		102E21FD2EE57DF900284365 /* Compile Kotlin Framework */ = {
+		10A227492EE752FD00D08F6B /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -139,7 +138,7 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		102E21EB2EE57DE100284365 /* Sources */ = {
+		100DBDCE2EE752A600C59A1C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -149,7 +148,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		102E21F82EE57DE200284365 /* Debug */ = {
+		100DBDDB2EE752A700C59A1C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -212,7 +211,7 @@
 			};
 			name = Debug;
 		};
-		102E21F92EE57DE200284365 /* Release */ = {
+		100DBDDC2EE752A700C59A1C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -268,17 +267,18 @@
 			};
 			name = Release;
 		};
-		102E21FB2EE57DE200284365 /* Debug */ = {
+		100DBDDE2EE752A700C59A1C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 102E22042EE57F2900284365 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -289,7 +289,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.outivox.app.myABC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outivox.myABC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -301,9 +301,8 @@
 			};
 			name = Debug;
 		};
-		102E21FC2EE57DE200284365 /* Release */ = {
+		100DBDDF2EE752A700C59A1C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 102E22042EE57F2900284365 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -311,7 +310,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -322,7 +322,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.outivox.app.myABC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outivox.myABC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -337,25 +337,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		102E21EA2EE57DE100284365 /* Build configuration list for PBXProject "iosApp" */ = {
+		100DBDCD2EE752A600C59A1C /* Build configuration list for PBXProject "myABC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				102E21F82EE57DE200284365 /* Debug */,
-				102E21F92EE57DE200284365 /* Release */,
+				100DBDDB2EE752A700C59A1C /* Debug */,
+				100DBDDC2EE752A700C59A1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		102E21FA2EE57DE200284365 /* Build configuration list for PBXNativeTarget "iosApp" */ = {
+		100DBDDD2EE752A700C59A1C /* Build configuration list for PBXNativeTarget "myABC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				102E21FB2EE57DE200284365 /* Debug */,
-				102E21FC2EE57DE200284365 /* Release */,
+				100DBDDE2EE752A700C59A1C /* Debug */,
+				100DBDDF2EE752A700C59A1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 102E21E72EE57DE100284365 /* Project object */;
+	rootObject = 100DBDCA2EE752A600C59A1C /* Project object */;
 }
