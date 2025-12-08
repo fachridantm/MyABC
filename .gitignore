@@ -204,3 +204,30 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/android,windows,androidstudio,firebase
+
+# Compose Multiplatform
+/compose-desktop/
+/build/compose/
+/build/js/
+/build/bin/
+/build/tmp/
+/build/dist/
+*.jar
+*.nar
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.exe
+*.dmg
+*.app
+*.deb
+*.rpm
+*.pkg
+*.ipa
+*.dSYM/
+*.xcarchive/
+*.xcworkspace/
+*.xcuserdatad/
+xcuserdata/
+Pods/
