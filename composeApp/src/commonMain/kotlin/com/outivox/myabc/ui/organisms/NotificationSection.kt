@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,18 +18,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
 import com.outivox.myabc.core.theme.colorPrimary
 import com.outivox.myabc.core.theme.colorPrimaryContainer
 import com.outivox.myabc.core.theme.colorTertiaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_card_outline
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
+import org.jetbrains.compose.resources.DrawableResource
 
 
 data class NotificationResourceItemAttribute(
-    @DrawableRes val iconRes: Int,
+    val iconRes: DrawableResource,
     val label: String,
     val description: String,
     val timestamp: String,
@@ -107,13 +108,13 @@ private fun NotificationSectionPreview() {
             date = "Today",
             itemList = listOf(
                 NotificationResourceItemAttribute(
-                    iconRes = R.drawable.ic_card_outline,
+                    iconRes = Res.drawable.ic_card_outline,
                     label = "Card Purchase",
                     description = "$50.00 at Starbucks",
                     timestamp = "10:45 AM",
                 ),
                 NotificationResourceItemAttribute(
-                    iconRes = R.drawable.ic_card_outline,
+                    iconRes = Res.drawable.ic_card_outline,
                     label = "Card Purchase",
                     description = "$50.00 at Starbucks",
                     timestamp = "10:45 AM",

@@ -1,9 +1,9 @@
 package com.outivox.myabc.ui.presentation.splash
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.outivox.myabc.core.util.JsonExtensions.toJson
+import com.outivox.myabc.core.util.PrintLog
 import com.outivox.myabc.core.util.UiState
 import com.outivox.myabc.core.util.UiState.Companion.default
 import com.outivox.myabc.core.util.UiState.Companion.error
@@ -11,8 +11,8 @@ import com.outivox.myabc.core.util.UiState.Companion.loading
 import com.outivox.myabc.core.util.UiState.Companion.success
 import com.outivox.myabc.core.util.data
 import com.outivox.myabc.core.util.isSuccess
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,11 +24,9 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SplashViewModel @Inject constructor() : ViewModel() {
-    private val tag = this@SplashViewModel::class.java.simpleName
+class SplashViewModel : ViewModel() {
+    private val tag = this@SplashViewModel::class.simpleName.orEmpty()
 
     private val _initState = MutableStateFlow<UiState<Map<String, String>>>(default())
     val initState = _initState.asStateFlow()
@@ -46,10 +44,10 @@ class SplashViewModel @Inject constructor() : ViewModel() {
                 delay(1500L)
                 emit(dummyData)
             }.onFailure { exception ->
-                Log.e(tag, exception.message.orEmpty(), exception)
+                PrintLog.e(tag, exception.message.orEmpty(), exception)
                 throw exception
             }.onSuccess {
-                Log.d(tag, "Execution retrieved successfully")
+                PrintLog.d(tag, "Execution retrieved successfully")
             }
         }.flowOn(Dispatchers.IO).mapNotNull { it }
 
@@ -60,7 +58,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
             .catch { emit(error(it, it.message.orEmpty())) }
             .collect { uiState ->
                 val data = if (uiState.isSuccess) uiState.data?.toJson() else uiState
-                Log.i(tag, "initState: Fresh collected uiState: $data")
+                PrintLog.i(tag, "initState: Fresh collected uiState: $data")
                 _initState.update { uiState }
             }
     }

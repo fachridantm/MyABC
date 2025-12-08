@@ -1,9 +1,10 @@
 package com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation
 
-import androidx.navigation3.runtime.NavKey
+import com.outivox.myabc.core.navigation.NavigationDestination
 import kotlinx.serialization.Serializable
 
-sealed class NavRoute : NavKey {
+@Serializable
+sealed class NavRoute : NavigationDestination() {
     @Serializable
     data object FirstRoute : NavRoute()
 

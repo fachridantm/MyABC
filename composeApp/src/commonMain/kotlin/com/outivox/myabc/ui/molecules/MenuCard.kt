@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.molecules
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,13 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
 import com.outivox.myabc.core.theme.colorPrimaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_transfer
 import com.outivox.myabc.ui.atoms.SurfaceIcon
+import org.jetbrains.compose.resources.DrawableResource
 
 data class MenuCardAttribute(
-    @DrawableRes val iconRes: Int,
+    val iconRes: DrawableResource,
     val label: String,
 )
 
@@ -36,7 +37,7 @@ fun MenuCard(attribute: MenuCardAttribute, onClick: (() -> Unit)? = null) {
                 size = 20.dp,
                 iconRes = attribute.iconRes,
                 backgroundColor = colorPrimaryContainer,
-                iconColor =  colorOnPrimaryContainer,
+                iconColor = colorOnPrimaryContainer,
             )
         }
 
@@ -49,7 +50,7 @@ fun MenuCard(attribute: MenuCardAttribute, onClick: (() -> Unit)? = null) {
 private fun MenuCardPreview() {
     MenuCard(
         attribute = MenuCardAttribute(
-            iconRes = R.drawable.ic_transfer,
+            iconRes = Res.drawable.ic_transfer,
             label = "Transfer",
         ),
     )

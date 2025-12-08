@@ -8,7 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_chevron_down
+import com.outivox.myabc.generated.resources.ic_date_picker
 import com.outivox.myabc.ui.molecules.Chip
 import com.outivox.myabc.ui.molecules.ChipAttribute
 
@@ -43,9 +45,9 @@ fun ChipFlexbox(
 private fun ChipFlexboxPreview() {
     val chips = listOf(
         ChipAttribute(
-            leadingIconRes = R.drawable.ic_date_picker,
+            leadingIconRes = Res.drawable.ic_date_picker,
             label = "Last 30 days",
-            trailingIconRes = R.drawable.ic_chevron_down,
+            trailingIconRes = Res.drawable.ic_chevron_down,
         ),
         ChipAttribute(label = "All", isSelected = true),
         ChipAttribute(label = "Income"),

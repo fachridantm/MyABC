@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,18 +20,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
 import com.outivox.myabc.core.theme.colorPrimary
 import com.outivox.myabc.core.theme.colorPrimaryContainer
 import com.outivox.myabc.core.theme.colorSecondaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.img_landlord_portrait
+import com.outivox.myabc.generated.resources.img_mom_portrait
 import com.outivox.myabc.ui.atoms.Avatar
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
+import org.jetbrains.compose.resources.DrawableResource
 
 
 data class FavoriteSectionResourceItemAttribute(
-    @DrawableRes val imageRes: Int,
+    val imageRes: DrawableResource,
     val label: String,
     val description: String,
 )
@@ -108,12 +110,12 @@ private fun FavoriteSectionPreview() {
         onClickRepeat = {},
         data = listOf(
             FavoriteSectionResourceItemAttribute(
-                imageRes = R.drawable.img_mom_portrait,
+                imageRes = Res.drawable.img_mom_portrait,
                 label = "Mom",
                 description = "Last transfer: $50.00",
             ),
             FavoriteSectionResourceItemAttribute(
-                imageRes = R.drawable.img_landlord_portrait,
+                imageRes = Res.drawable.img_landlord_portrait,
                 label = "Landlord",
                 description = "Last transfer: $1200.00",
             ),

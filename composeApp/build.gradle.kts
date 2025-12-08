@@ -12,6 +12,11 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.outivox.myabc.generated.resources"
+}
+
 android {
     namespace = "com.outivox.myabc"
     compileSdk = 36
@@ -69,6 +74,9 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core"))
             implementation(project(":authentication"))
+
+            // Compose Resources
+            implementation(libs.jetbrains.compose.resources)
         }
         commonTest.dependencies {
             implementation(project(":core"))

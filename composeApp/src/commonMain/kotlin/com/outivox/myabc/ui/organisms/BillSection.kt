@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,16 +18,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorPrimary
 import com.outivox.myabc.core.theme.colorSecondaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_light_bulb
+import com.outivox.myabc.generated.resources.ic_netflix_square
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
+import org.jetbrains.compose.resources.DrawableResource
 
 
 data class BillSectionResourceItemAttribute(
-    @DrawableRes val iconRes: Int,
+    val iconRes: DrawableResource,
     val iconBackgroundColor: Color,
     val label: String,
     val description: String,
@@ -100,14 +102,14 @@ private fun DashboardBillSectionPreview() {
         onClickViewAll = {},
         data = listOf(
             BillSectionResourceItemAttribute(
-                iconRes = R.drawable.ic_netflix_square,
+                iconRes = Res.drawable.ic_netflix_square,
                 label = "Netflix",
                 description = "Due: Oct 28",
                 price = "$15.49",
                 iconBackgroundColor = Color.Magenta,
             ),
             BillSectionResourceItemAttribute(
-                iconRes = R.drawable.ic_light_bulb,
+                iconRes = Res.drawable.ic_light_bulb,
                 label = "City Power",
                 description = "Due: Nov 02",
                 price = "$78.20",

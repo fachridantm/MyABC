@@ -1,10 +1,5 @@
 package com.outivox.myabc.ui.presentation.dashboard
 
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -25,14 +20,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.outivox.myabc.core.navigation.NotificationScreenDestination
 import com.outivox.myabc.core.theme.MyABCTheme
+import com.outivox.myabc.core.util.LocalAppManager
 import com.outivox.myabc.core.util.LocalNavBackStack
+import com.outivox.myabc.core.util.LocalToastManager
+import com.outivox.myabc.core.util.PrintLog
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_light_bulb
+import com.outivox.myabc.generated.resources.ic_menu_outline
+import com.outivox.myabc.generated.resources.ic_netflix_square
+import com.outivox.myabc.generated.resources.ic_receipt
+import com.outivox.myabc.generated.resources.ic_transfer
+import com.outivox.myabc.generated.resources.ic_wallet
+import com.outivox.myabc.generated.resources.img_landlord_portrait
+import com.outivox.myabc.generated.resources.img_man_side_view
+import com.outivox.myabc.generated.resources.img_mom_portrait
 import com.outivox.myabc.ui.atoms.Avatar
 import com.outivox.myabc.ui.molecules.MenuCardAttribute
 import com.outivox.myabc.ui.molecules.SummaryCard
@@ -44,11 +53,12 @@ import com.outivox.myabc.ui.organisms.FavoriteSectionResourceItemAttribute
 import com.outivox.myabc.ui.organisms.MenuGrid
 import com.outivox.myabc.ui.organisms.MenuGridAttribute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.BottomSheetDashboardContainer
+import org.jetbrains.compose.resources.DrawableResource
 
 private const val TAG = "DashboardScreen"
 
 data class DashboardScreenState(
-    @DrawableRes val userAvatar: Int = 0,
+    val userAvatar: DrawableResource? = null,
     val userName: String = "",
     val totalBalance: String = "",
     val accountNumber: String = "",
@@ -69,9 +79,9 @@ sealed class DashboardScreenEvent {
 fun DashboardScreen(
     state: DashboardScreenState = DashboardScreenState(),
 ) {
-    val activity = LocalActivity.current
-    val context = LocalContext.current
     val navBackStack = LocalNavBackStack.current
+    val toastManager = LocalToastManager.current
+    val appManager = LocalAppManager.current
 
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -79,27 +89,29 @@ fun DashboardScreen(
         modifier = Modifier.systemBarsPadding(),
         containerColor = Color.White,
         topBar = {
-            DashboardScreenTopBar(
-                userAvatar = state.userAvatar,
-                userName = state.userName,
-                onClickNotification = {
-                    runCatching {
-                        navBackStack.add(NotificationScreenDestination)
-                    }.onFailure {
-                        Toast.makeText(context, "Failed to navigate", Toast.LENGTH_SHORT).show()
-                        Log.e(TAG, it.message.orEmpty(), it)
-                    }
-                },
-            )
+            state.userAvatar?.let {
+                DashboardScreenTopBar(
+                    userAvatar = state.userAvatar,
+                    userName = state.userName,
+                    onClickNotification = {
+                        runCatching {
+                            navBackStack.add(NotificationScreenDestination)
+                        }.onFailure {
+                            toastManager.showToast("Failed to navigate")
+                            PrintLog.e(TAG, it.message.orEmpty(), it)
+                        }
+                    },
+                )
+            }
         },
         content = {
             DashboardScreenContent(
-                modifier = padding(it),
+                modifier = Modifier.padding(it),
                 state = state,
                 event = { screenEvent ->
                     when (screenEvent) {
                         DashboardScreenEvent.OnManageClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            toastManager.showToast("Not implemented yet")
                         }
 
                         DashboardScreenEvent.OnMenuClicked -> {
@@ -107,15 +119,15 @@ fun DashboardScreen(
                         }
 
                         DashboardScreenEvent.OnRepeatClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            toastManager.showToast("Not implemented yet")
                         }
 
                         DashboardScreenEvent.OnViewAllClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            toastManager.showToast("Not implemented yet")
                         }
 
                         DashboardScreenEvent.OnBackPressed -> {
-                            activity?.finishAndRemoveTask()
+                            appManager.exitApp()
                         }
                     }
                 },
@@ -124,7 +136,7 @@ fun DashboardScreen(
         bottomBar = {
             BottomNavBar(
                 onClick = {
-                    Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                    toastManager.showToast("Not implemented yet")
                 },
             )
         },
@@ -138,7 +150,7 @@ fun DashboardScreen(
 
 @Composable
 private fun DashboardScreenTopBar(
-    @DrawableRes userAvatar: Int,
+    userAvatar: DrawableResource,
     userName: String,
     onClickNotification: () -> Unit,
 ) {
@@ -172,7 +184,12 @@ private fun DashboardScreenContent(
     state: DashboardScreenState,
     event: (DashboardScreenEvent) -> Unit,
 ) {
-    BackHandler {
+    val navigationEventState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+    NavigationBackHandler(
+        state = navigationEventState,
+    ) {
         event(DashboardScreenEvent.OnBackPressed)
     }
     LazyColumn(
@@ -223,38 +240,38 @@ private fun Preview() {
     MyABCTheme {
         DashboardScreen(
             state = DashboardScreenState(
-                userAvatar = R.drawable.img_man_side_view,
+                userAvatar = Res.drawable.img_man_side_view,
                 userName = "Alex",
                 totalBalance = "$12,345.67",
                 accountNumber = "...1234",
                 menuList = listOf(
                     MenuCardAttribute(
-                        iconRes = R.drawable.ic_transfer,
+                        iconRes = Res.drawable.ic_transfer,
                         label = "Transfer",
                     ),
                     MenuCardAttribute(
-                        iconRes = R.drawable.ic_wallet,
+                        iconRes = Res.drawable.ic_wallet,
                         label = "Deposit",
                     ),
                     MenuCardAttribute(
-                        iconRes = R.drawable.ic_receipt,
+                        iconRes = Res.drawable.ic_receipt,
                         label = "Pay Bills",
                     ),
                     MenuCardAttribute(
-                        iconRes = R.drawable.ic_menu_outline,
+                        iconRes = Res.drawable.ic_menu_outline,
                         label = "More",
                     ),
                 ),
                 paymentList = listOf(
                     BillSectionResourceItemAttribute(
-                        iconRes = R.drawable.ic_netflix_square,
+                        iconRes = Res.drawable.ic_netflix_square,
                         label = "Netflix",
                         description = "Due: Oct 28",
                         price = "$15.49",
                         iconBackgroundColor = Color.Magenta,
                     ),
                     BillSectionResourceItemAttribute(
-                        iconRes = R.drawable.ic_light_bulb,
+                        iconRes = Res.drawable.ic_light_bulb,
                         label = "City Power",
                         description = "Due: Nov 02",
                         price = "$78.20",
@@ -263,12 +280,12 @@ private fun Preview() {
                 ),
                 favoriteList = listOf(
                     FavoriteSectionResourceItemAttribute(
-                        imageRes = R.drawable.img_mom_portrait,
+                        imageRes = Res.drawable.img_mom_portrait,
                         label = "Mom",
                         description = "Last transfer: $50.00",
                     ),
                     FavoriteSectionResourceItemAttribute(
-                        imageRes = R.drawable.img_landlord_portrait,
+                        imageRes = Res.drawable.img_landlord_portrait,
                         label = "Landlord",
                         description = "Last transfer: $1200.00",
                     ),

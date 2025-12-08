@@ -18,9 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
 import com.outivox.myabc.core.theme.colorPrimaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_card
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 
 data class ResourceItemAttribute(
@@ -53,18 +54,22 @@ fun ResourceItem(
                     fontSize = 16.sp
                 )
             }
-            attribute.description?.let { Text(
-                modifier = attribute.modifier.fillMaxWidth(),
-                text = it,
-                color = Color.DarkGray,
-                fontSize = 14.sp
-            ) }
-            attribute.notes?.let { Text(
-                modifier = attribute.modifier.fillMaxWidth(),
-                text = it,
-                color = Color.Gray,
-                fontSize = 12.sp
-            ) }
+            attribute.description?.let {
+                Text(
+                    modifier = attribute.modifier.fillMaxWidth(),
+                    text = it,
+                    color = Color.DarkGray,
+                    fontSize = 14.sp
+                )
+            }
+            attribute.notes?.let {
+                Text(
+                    modifier = attribute.modifier.fillMaxWidth(),
+                    text = it,
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
+            }
         }
         trailingContent?.invoke()
     }
@@ -81,7 +86,7 @@ fun ResourceItemPreview() {
         ),
         leadingContent = {
             SurfaceIcon(
-                iconRes = R.drawable.ic_card,
+                iconRes = Res.drawable.ic_card,
                 size = 28.dp,
                 iconPadding = 8.dp,
                 iconColor = colorOnPrimaryContainer,

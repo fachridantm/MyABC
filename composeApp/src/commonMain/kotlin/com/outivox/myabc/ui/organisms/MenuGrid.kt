@@ -11,7 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_menu_outline
+import com.outivox.myabc.generated.resources.ic_receipt
+import com.outivox.myabc.generated.resources.ic_transfer
+import com.outivox.myabc.generated.resources.ic_wallet
 import com.outivox.myabc.ui.molecules.MenuCard
 import com.outivox.myabc.ui.molecules.MenuCardAttribute
 
@@ -55,19 +59,19 @@ private fun MenuGridPreview() {
         attribute = MenuGridAttribute(
             itemList = listOf(
                 MenuCardAttribute(
-                    iconRes = R.drawable.ic_transfer,
+                    iconRes = Res.drawable.ic_transfer,
                     label = "Transfer",
                 ),
                 MenuCardAttribute(
-                    iconRes = R.drawable.ic_wallet,
+                    iconRes = Res.drawable.ic_wallet,
                     label = "Deposit",
                 ),
                 MenuCardAttribute(
-                    iconRes = R.drawable.ic_receipt,
+                    iconRes = Res.drawable.ic_receipt,
                     label = "Pay Bills",
                 ),
                 MenuCardAttribute(
-                    iconRes = R.drawable.ic_menu_outline,
+                    iconRes = Res.drawable.ic_menu_outline,
                     label = "More",
                 ),
             ),

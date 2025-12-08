@@ -4,13 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.savedstate.serialization.SavedStateConfiguration
 import com.outivox.myabc.core.bottomsheet.BottomSheetFlowContent
 import com.outivox.myabc.core.util.LocalBottomSheetNavBackStack
-import com.outivox.myabc.core.util.getOrNewViewModelStoreOwner
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.FirstRoute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.SecondRoute
+import com.outivox.myabc.util.navKeySerializer
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun BottomSheetDashboardContainer(
@@ -18,9 +20,15 @@ fun BottomSheetDashboardContainer(
     onCancel: () -> Unit,
 ) {
     if (!showBottomSheet) return
-    CompositionLocalProvider(LocalBottomSheetNavBackStack provides rememberNavBackStack(NavRoute.FirstRoute)) {
+    val navBackStack = rememberNavBackStack(
+        configuration = SavedStateConfiguration {
+            serializersModule = navKeySerializer
+        },
+        NavRoute.FirstRoute
+    )
+    CompositionLocalProvider(LocalBottomSheetNavBackStack provides navBackStack) {
         SampleBottomSheetFlow(
-            onCancel = onCancel
+            onCancel = onCancel,
         )
     }
 }
@@ -28,7 +36,7 @@ fun BottomSheetDashboardContainer(
 @Composable
 private fun SampleBottomSheetFlow(
     onCancel: () -> Unit = {},
-    dashboardViewModel: DashboardViewModel = getOrNewViewModelStoreOwner(),
+    dashboardViewModel: DashboardViewModel = koinViewModel(),
 ) {
     val sampleRoutes = remember {
         listOf(

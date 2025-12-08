@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -13,20 +12,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_arrow_left
+import com.outivox.myabc.generated.resources.ic_search
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
 fun HeaderPage(
-    @DrawableRes leadingIconRes: Int? = null,
-    @DrawableRes trailingIconRes: Int? = null,
+    leadingIconRes: DrawableResource? = null,
+    trailingIconRes: DrawableResource? = null,
     title: String,
     onClickLeadingIcon: (() -> Unit)? = null,
     onClickTrailingIcon: (() -> Unit)? = null,
@@ -79,7 +81,7 @@ fun HeaderPage(
 private fun HeaderPagePreview() {
     HeaderPage(
         title = "Transactions",
-        leadingIconRes = R.drawable.ic_arrow_left,
-        trailingIconRes = R.drawable.ic_search,
+        leadingIconRes = Res.drawable.ic_arrow_left,
+        trailingIconRes = Res.drawable.ic_search,
     )
 }

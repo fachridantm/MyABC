@@ -1,7 +1,5 @@
 package com.outivox.myabc.ui.presentation.setting
 
-import androidx.activity.compose.BackHandler
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -14,7 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_arrow_left
+import com.outivox.myabc.generated.resources.ic_logout_outline
+import com.outivox.myabc.generated.resources.ic_setting
+import com.outivox.myabc.generated.resources.img_man_side_view
 import com.outivox.myabc.ui.organisms.HeaderPage
 import com.outivox.myabc.ui.organisms.MenuResourceItemAttribute
 import com.outivox.myabc.ui.organisms.PrimaryButton
@@ -22,9 +27,10 @@ import com.outivox.myabc.ui.organisms.ProfileComponent
 import com.outivox.myabc.ui.organisms.ProfileComponentAttribute
 import com.outivox.myabc.ui.organisms.SettingMenuSection
 import com.outivox.myabc.ui.organisms.SettingMenuSectionAttribute
+import org.jetbrains.compose.resources.DrawableResource
 
 private data class SettingScreenState(
-    @DrawableRes val userAvatar: Int = 0,
+    val userAvatar: DrawableResource? = null,
     val userName: String = "",
     val userEmail: String = "",
     val settingMenuList: List<SettingMenuSectionAttribute> = emptyList(),
@@ -40,13 +46,17 @@ private fun SettingScreen(
     state: SettingScreenState = SettingScreenState(),
     event: (SettingScreenEvent) -> Unit = {},
 ) {
+    val navigationEventState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         containerColor = Color.White,
         topBar = {
             HeaderPage(
                 title = "Settings",
-                leadingIconRes = R.drawable.ic_arrow_left,
+                leadingIconRes = Res.drawable.ic_arrow_left,
                 onClickLeadingIcon = {
                     event(SettingScreenEvent.OnBackPressed)
                 },
@@ -54,7 +64,7 @@ private fun SettingScreen(
         },
         content = {
             SettingScreenContent(
-                modifier = padding(it),
+                modifier = Modifier.padding(it),
                 state = state,
             )
         },
@@ -62,14 +72,16 @@ private fun SettingScreen(
             PrimaryButton(
                 modifier = Modifier.padding(16.dp),
                 text = "Logout",
-                leadingIconRes = R.drawable.ic_logout_outline,
+                leadingIconRes = Res.drawable.ic_logout_outline,
                 onClick = {
                     event(SettingScreenEvent.OnLogoutClicked)
                 }
             )
         },
     )
-    BackHandler {
+    NavigationBackHandler(
+        state = navigationEventState,
+    ) {
         event(SettingScreenEvent.OnBackPressed)
     }
 }
@@ -82,13 +94,15 @@ private fun SettingScreenContent(modifier: Modifier, state: SettingScreenState) 
         contentPadding = PaddingValues(16.dp),
     ) {
         item {
-            ProfileComponent(
-                attribute = ProfileComponentAttribute(
-                    avatarImageRes = state.userAvatar,
-                    userName = state.userName,
-                    userEmail = state.userEmail,
-                ),
-            )
+            state.userAvatar?.let {
+                ProfileComponent(
+                    attribute = ProfileComponentAttribute(
+                        avatarImageRes = state.userAvatar,
+                        userName = state.userName,
+                        userEmail = state.userEmail,
+                    ),
+                )
+            }
         }
 
         items(state.settingMenuList) { section ->
@@ -102,7 +116,7 @@ private fun SettingScreenContent(modifier: Modifier, state: SettingScreenState) 
 private fun SettingScreenPreview() {
     SettingScreen(
         state = SettingScreenState(
-            userAvatar = R.drawable.img_man_side_view,
+            userAvatar = Res.drawable.img_man_side_view,
             userName = "Alex Doe",
             userEmail = "alex.doe@email.com",
             settingMenuList = listOf(
@@ -110,12 +124,12 @@ private fun SettingScreenPreview() {
                     title = "PERSONAL INFORMATION",
                     itemList = listOf(
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Contact Details",
                             description = "Manage your phone and email",
                         ),
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Mailing Address",
                         ),
                     ),
@@ -124,15 +138,15 @@ private fun SettingScreenPreview() {
                     title = "SECURITY",
                     itemList = listOf(
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Change Password",
                         ),
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Manage Biometrics",
                         ),
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Linked Accounts & Devices",
                         ),
                     ),
@@ -141,11 +155,11 @@ private fun SettingScreenPreview() {
                     title = "APP PREFERENCES",
                     itemList = listOf(
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Notification",
                         ),
                         MenuResourceItemAttribute(
-                            iconRes = R.drawable.ic_setting,
+                            iconRes = Res.drawable.ic_setting,
                             label = "Theme",
                         ),
                     ),

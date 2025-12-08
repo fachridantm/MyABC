@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,20 +9,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimary
 import com.outivox.myabc.core.theme.colorOnSecondaryContainer
 import com.outivox.myabc.core.theme.colorPrimary
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_chevron_next
+import com.outivox.myabc.generated.resources.ic_setting
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 data class MenuResourceItemAttribute(
-    @DrawableRes val iconRes: Int,
+    val iconRes: DrawableResource,
     val label: String,
     val description: String? = null,
 )
@@ -45,7 +47,7 @@ fun SettingMenuSection(attribute: SettingMenuSectionAttribute) {
             color = colorPrimary,
         )
 
-        attribute.itemList.forEachIndexed { index, item ->
+        attribute.itemList.forEachIndexed { _, item ->
             ResourceItem(
                 attribute = ResourceItemAttribute(
                     label = item.label,
@@ -62,7 +64,7 @@ fun SettingMenuSection(attribute: SettingMenuSectionAttribute) {
                 },
                 trailingContent = {
                     Icon(
-                        painter = painterResource(R.drawable.ic_chevron_next),
+                        painter = painterResource(Res.drawable.ic_chevron_next),
                         contentDescription = null,
                         tint = Color.Gray,
                     )
@@ -82,12 +84,12 @@ private fun SettingMenuSectionPreview() {
             title = "PERSONAL INFORMATION",
             itemList = listOf(
                 MenuResourceItemAttribute(
-                    iconRes = R.drawable.ic_setting,
+                    iconRes = Res.drawable.ic_setting,
                     label = "Contact Details",
                     description = "Manage your phone and email",
                 ),
                 MenuResourceItemAttribute(
-                    iconRes = R.drawable.ic_setting,
+                    iconRes = Res.drawable.ic_setting,
                     label = "Mailing Address",
                 ),
             ),

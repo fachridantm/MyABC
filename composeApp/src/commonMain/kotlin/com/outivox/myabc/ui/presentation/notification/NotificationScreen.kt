@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.presentation.notification
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -12,8 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.outivox.myabc.core.util.LocalNavBackStack
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_arrow_left
+import com.outivox.myabc.generated.resources.ic_card_outline
 import com.outivox.myabc.ui.organisms.HeaderPage
 import com.outivox.myabc.ui.organisms.NotificationResourceItemAttribute
 import com.outivox.myabc.ui.organisms.NotificationSection
@@ -39,7 +43,7 @@ fun NotificationScreen(
         topBar = {
             HeaderPage(
                 title = "Notifications",
-                leadingIconRes = R.drawable.ic_arrow_left,
+                leadingIconRes = Res.drawable.ic_arrow_left,
                 onClickLeadingIcon = {
                     navBackStack.removeLastOrNull()
                 },
@@ -47,7 +51,7 @@ fun NotificationScreen(
         },
         content = {
             NotificationScreenContent(
-                modifier = padding(it),
+                modifier = Modifier.padding(it),
                 state = state,
                 event = { screenEvent ->
                     when (screenEvent) {
@@ -68,7 +72,12 @@ private fun NotificationScreenContent(
     state: NotificationScreenState,
     event: (NotificationScreenEvent) -> Unit,
 ) {
-    BackHandler {
+    val navigationEventState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+    NavigationBackHandler(
+        state = navigationEventState,
+    ) {
         event(NotificationScreenEvent.OnBackPressed)
     }
     LazyColumn(
@@ -91,13 +100,13 @@ private fun NotificationScreenPreview() {
                     date = "TODAY",
                     itemList = listOf(
                         NotificationResourceItemAttribute(
-                            iconRes = R.drawable.ic_card_outline,
+                            iconRes = Res.drawable.ic_card_outline,
                             label = "Card Purchase",
                             description = "$50.00 at Starbucks",
                             timestamp = "10:45 AM",
                         ),
                         NotificationResourceItemAttribute(
-                            iconRes = R.drawable.ic_card_outline,
+                            iconRes = Res.drawable.ic_card_outline,
                             label = "New Device Login",
                             description = "From a device in London, UK",
                             timestamp = "9:30 AM",
@@ -108,13 +117,13 @@ private fun NotificationScreenPreview() {
                     date = "YESTERDAY",
                     itemList = listOf(
                         NotificationResourceItemAttribute(
-                            iconRes = R.drawable.ic_card_outline,
+                            iconRes = Res.drawable.ic_card_outline,
                             label = "New Cashback Offer",
                             description = "Earn 5% back on dining.",
                             timestamp = "4:15 PM",
                         ),
                         NotificationResourceItemAttribute(
-                            iconRes = R.drawable.ic_card_outline,
+                            iconRes = Res.drawable.ic_card_outline,
                             label = "Your e-Statement is Ready",
                             description = "Statement for October 2023",
                             timestamp = "9:02 AM",
@@ -126,7 +135,7 @@ private fun NotificationScreenPreview() {
                     date = "OCTOBER 15",
                     itemList = listOf(
                         NotificationResourceItemAttribute(
-                            iconRes = R.drawable.ic_card_outline,
+                            iconRes = Res.drawable.ic_card_outline,
                             label = "Card Purchase",
                             description = "$12.50 at Starbucks",
                             timestamp = "11:55 AM",

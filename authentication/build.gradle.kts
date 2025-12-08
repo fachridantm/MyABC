@@ -10,6 +10,11 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.outivox.myabc.authentication.generated.resources"
+}
+
 kotlin {
     androidLibrary {
         namespace = "com.outivox.myabc.authentication"
@@ -32,8 +37,14 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core"))
+
+            // Compose Resources
+            implementation(libs.jetbrains.compose.resources)
         }
         androidMain.dependencies {
+            implementation(project(":core"))
+        }
+        iosMain.dependencies {
             implementation(project(":core"))
         }
     }

@@ -36,9 +36,11 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimaryContainer
 import com.outivox.myabc.core.theme.colorPrimaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_card
+import com.outivox.myabc.generated.resources.ic_transfer
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
@@ -76,7 +78,7 @@ fun Modifier.wiggle(
 private fun WigglePreview() {
     SurfaceIcon(
         modifier = Modifier.wiggle(),
-        iconRes = R.drawable.ic_transfer
+        iconRes = Res.drawable.ic_transfer
     )
 }
 
@@ -132,7 +134,7 @@ private fun ShimmerPreview() {
         ),
         leadingContent = {
             SurfaceIcon(
-                iconRes = R.drawable.ic_card,
+                iconRes = Res.drawable.ic_card,
                 size = 28.dp,
                 iconPadding = 8.dp,
                 iconColor = colorOnPrimaryContainer,

@@ -1,32 +1,30 @@
 package com.outivox.myabc.core.util
 
-import android.net.Uri
-
-fun Uri.getQueryParameterString(key: String): String {
-    return getQueryParameter(key).orEmpty()
+fun PlatformUri.getQueryParameterString(key: String): String {
+    return getUriQueryParameter(key).orEmpty()
 }
 
-fun Uri.getQueryParameterInt(key: String): Int {
-    return getQueryParameter(key).orEmpty().ifEmpty { "0" }.toInt()
+fun PlatformUri.getQueryParameterInt(key: String): Int {
+    return getUriQueryParameter(key).orEmpty().ifEmpty { "0" }.toInt()
 }
 
-fun Uri.getQueryParameterIntOrNull(key: String): Int? {
-    return getQueryParameter(key)?.ifEmpty { "0" }?.toIntOrNull()
+fun PlatformUri.getQueryParameterIntOrNull(key: String): Int? {
+    return getUriQueryParameter(key)?.ifEmpty { "0" }?.toIntOrNull()
 }
 
-fun Uri.getQueryParameterDouble(key: String): Double {
-    return getQueryParameter(key).orEmpty().ifEmpty { "0.0" }.toDouble()
+fun PlatformUri.getQueryParameterDouble(key: String): Double {
+    return getUriQueryParameter(key).orEmpty().ifEmpty { "0.0" }.toDouble()
 }
 
-fun Uri.getQueryParameterDoubleOrNull(key: String): Double? {
-    return getQueryParameter(key)?.ifEmpty { "0.0" }?.toDoubleOrNull()
+fun PlatformUri.getQueryParameterDoubleOrNull(key: String): Double? {
+    return getUriQueryParameter(key)?.ifEmpty { "0.0" }?.toDoubleOrNull()
 }
 
-fun Uri.getQueryParameterBoolean(key: String): Boolean {
-    return getQueryParameter(key).orEmpty().ifEmpty { "false" }.equals("true", ignoreCase = true)
+fun PlatformUri.getQueryParameterBoolean(key: String): Boolean {
+    return getUriQueryParameter(key).orEmpty().ifEmpty { "false" }.equals("true", ignoreCase = true)
 }
 
-fun Uri.getQueryParameterBooleanOrNull(key: String): Boolean? {
-    val value = getQueryParameter(key)?.ifEmpty { "false" }
+fun PlatformUri.getQueryParameterBooleanOrNull(key: String): Boolean? {
+    val value = getUriQueryParameter(key)?.ifEmpty { "false" }
     return value?.equals("true", ignoreCase = true)
 }

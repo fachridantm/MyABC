@@ -2,7 +2,6 @@
 
 package com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,10 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.outivox.myabc.core.bottomsheet.BaseBottomSheetRoute
 import com.outivox.myabc.core.component.BottomSheetFooterState
 import com.outivox.myabc.core.component.BottomSheetHeaderState
@@ -30,6 +31,7 @@ import com.outivox.myabc.core.navigation.LaunchableSampleScreenDestination
 import com.outivox.myabc.core.theme.MyABCBottomSheetTheme
 import com.outivox.myabc.core.util.LocalBottomSheetNavBackStack
 import com.outivox.myabc.core.util.LocalNavBackStack
+import com.outivox.myabc.core.util.LocalToastManager
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
@@ -67,12 +69,12 @@ class SecondRoute(
 
     @Composable
     override fun getFooterState(): BottomSheetFooterState {
-        val context = LocalContext.current
         val navBackStack = LocalNavBackStack.current
+        val toastManager = LocalToastManager.current
         return BottomSheetFooterState(
             textPrimary = "Next",
             onPrimaryButtonClicked = {
-//                Toast.makeText(context, "End of the route", Toast.LENGTH_SHORT).show()
+                toastManager.showToast("End of route")
                 onCancel()
                 navBackStack.add(LaunchableSampleScreenDestination)
             }
@@ -89,7 +91,13 @@ class SecondRoute(
     ) {
         val navBackStack = LocalBottomSheetNavBackStack.current
         SecondContent()
-        BackHandler(onBack = navBackStack::removeLastOrNull)
+        val navigationEventState = rememberNavigationEventState(
+            currentInfo = NavigationEventInfo.None
+        )
+        NavigationBackHandler(
+            state = navigationEventState,
+            onBackCompleted = navBackStack::removeLastOrNull,
+        )
     }
 }
 

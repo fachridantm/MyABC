@@ -28,6 +28,7 @@ androidx-test-core = "1.7.0"
 
 # Koin
 koin = "4.1.0"
+koin-annotations = "2.3.1"
 
 # SquareUp
 moshi = "1.15.2"
@@ -88,11 +89,16 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlin-serialization-core" }
 
 # Koin
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-androidx-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
 koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin" }
-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+
+# Koin Annotiations
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-annotations" }
+koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koin-annotations" }
 
 # Android Work
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
@@ -107,6 +113,9 @@ androidx-lifecycle-viewmodel-savedstate = { group = "org.jetbrains.androidx.life
 
 # Compose Activity
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+
+# Compose Resource
+jetbrains-compose-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose-multiplatform" }
 
 # Compose UI
 jetbrains-compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose-multiplatform" }

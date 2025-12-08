@@ -13,14 +13,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.savedstate.serialization.SavedStateConfiguration
 import com.outivox.myabc.core.deeplink.DeeplinkHandler
 import com.outivox.myabc.core.deeplink.DeeplinkStartState
 import com.outivox.myabc.core.navigation.NavigationViewModel
 import com.outivox.myabc.core.navigation.SplashScreenDestination
 import com.outivox.myabc.core.theme.MyABCTheme
 import com.outivox.myabc.core.util.JsonExtensions.toJson
+import com.outivox.myabc.core.util.LocalAppManager
 import com.outivox.myabc.core.util.LocalNavBackStack
+import com.outivox.myabc.core.util.LocalToastManager
+import com.outivox.myabc.core.util.rememberAppManager
+import com.outivox.myabc.core.util.rememberToastManager
 import com.outivox.myabc.navigation.AppNavigator
+import com.outivox.myabc.util.navKeySerializer
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,12 +41,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            navBackStack = rememberNavBackStack(SplashScreenDestination)
+            val savedStateConfiguration = SavedStateConfiguration {
+                serializersModule = navKeySerializer
+            }
+            navBackStack = rememberNavBackStack(savedStateConfiguration, SplashScreenDestination)
             splashScreen.setKeepOnScreenCondition { navBackStack.last() is SplashScreenDestination }
 
             MyABCTheme {
                 CompositionLocalProvider(
                     LocalNavBackStack provides navBackStack,
+                    LocalToastManager provides rememberToastManager(),
+                    LocalAppManager provides rememberAppManager()
                 ) {
                     AppNavigator()
 
@@ -70,7 +81,7 @@ class MainActivity : ComponentActivity() {
             lifecycleScope.launch {
                 if (::navBackStack.isInitialized) {
                     DeeplinkHandler.handleDeeplink(
-                        uri = uri,
+                        uri = uri.toString(),
                         startState = startState,
                         navBackStack = navBackStack,
                         navigationViewModel = navigationViewModel,

@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,20 +14,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnPrimary
 import com.outivox.myabc.core.theme.colorOnTertiaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_logout_outline
+import com.outivox.myabc.generated.resources.ic_transfer
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun PrimaryButton(
     modifier: Modifier = Modifier,
-    @DrawableRes leadingIconRes: Int? = null,
-    @DrawableRes trailingIconRes: Int? = null,
+    leadingIconRes: DrawableResource? = null,
+    trailingIconRes: DrawableResource? = null,
     text: String,
     onClick: () -> Unit,
 ) {
@@ -70,8 +72,8 @@ private fun PrimaryButtonPreview() {
     PrimaryButton(
         modifier = Modifier.padding(16.dp),
         text = "Text",
-        leadingIconRes = R.drawable.ic_logout_outline,
-        trailingIconRes = R.drawable.ic_transfer,
+        leadingIconRes = Res.drawable.ic_logout_outline,
+        trailingIconRes = Res.drawable.ic_transfer,
         onClick = {}
     )
 }

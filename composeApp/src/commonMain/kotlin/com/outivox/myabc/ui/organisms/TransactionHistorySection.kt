@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +12,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnSecondaryContainer
 import com.outivox.myabc.core.theme.colorPrimary
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_cart_outline
+import com.outivox.myabc.generated.resources.ic_cup_outline
 import com.outivox.myabc.ui.atoms.SurfaceIcon
 import com.outivox.myabc.ui.molecules.ResourceItem
 import com.outivox.myabc.ui.molecules.ResourceItemAttribute
+import org.jetbrains.compose.resources.DrawableResource
 
 
 data class TransactionResourceItemAttribute(
-    @DrawableRes val iconRes: Int,
+    val iconRes: DrawableResource,
     val label: String,
     val description: String,
     val price: String,
@@ -85,13 +87,13 @@ private fun TransactionHistorySectionPreview() {
             date = "Today",
             itemList = listOf(
                 TransactionResourceItemAttribute(
-                    iconRes = R.drawable.ic_cart_outline,
+                    iconRes = Res.drawable.ic_cart_outline,
                     label = "Amazon.com",
                     description = "Online Purchase",
                     price = "$78.50",
                 ),
                 TransactionResourceItemAttribute(
-                    iconRes = R.drawable.ic_cup_outline,
+                    iconRes = Res.drawable.ic_cup_outline,
                     label = "Starbucks",
                     description = "Coffee",
                     price = "$5.75",

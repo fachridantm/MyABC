@@ -1,12 +1,12 @@
 package com.outivox.myabc.core.deeplink
 
-import android.net.Uri
-import android.util.Log
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.outivox.myabc.core.navigation.NavigationDestination
 import com.outivox.myabc.core.navigation.NavigationViewModel
+import com.outivox.myabc.core.util.PrintLog
 import com.outivox.myabc.core.util.getQueryParameterBooleanOrNull
+import com.outivox.myabc.core.util.toPlatformUri
 
 object DeeplinkHandler {
     private const val TAG = "DeeplinkHandler"
@@ -34,21 +34,21 @@ object DeeplinkHandler {
      *   b. If "auth" is present and false, check if the URI string is a valid pre-login deeplink. If so, return [DeeplinkAccessLevel.PRE_LOGIN]; otherwise, return [DeeplinkAccessLevel.INVALID].
      * 3. If "auth" is not present, check if the URI string is a valid pre-login deeplink, if so return [DeeplinkAccessLevel.PRE_LOGIN]
      */
-    private fun getDeeplinkAccessLevel(uri: Uri?): DeeplinkAccessLevel {
+    private fun getDeeplinkAccessLevel(uri: String?): DeeplinkAccessLevel {
         if (uri == null) return DeeplinkAccessLevel.INVALID
-        val uriString = uri.toString()
-        val auth = uri.getQueryParameterBooleanOrNull("auth")
-        Log.i(TAG, "Deeplink auth: $auth")
+        val platformUri = uri.toPlatformUri()
+        val auth = platformUri?.getQueryParameterBooleanOrNull("auth")
+        PrintLog.i(TAG, "Deeplink auth: $auth")
 
         if (auth != null) {
             return if (auth) {
-                if (uriString.isPostLoginLevelValid()) {
+                if (uri.isPostLoginLevelValid()) {
                     DeeplinkAccessLevel.POST_LOGIN
                 } else {
                     DeeplinkAccessLevel.INVALID
                 }
             } else {
-                if (uriString.isPreLoginLevelValid()) {
+                if (uri.isPreLoginLevelValid()) {
                     DeeplinkAccessLevel.PRE_LOGIN
                 } else {
                     DeeplinkAccessLevel.INVALID
@@ -56,11 +56,11 @@ object DeeplinkHandler {
             }
         } else {
             return when {
-                uriString.isPreLoginLevelValid() -> {
+                uri.isPreLoginLevelValid() -> {
                     DeeplinkAccessLevel.PRE_LOGIN
                 }
 
-                uriString.isPostLoginLevelValid() -> {
+                uri.isPostLoginLevelValid() -> {
                     DeeplinkAccessLevel.POST_LOGIN
                 }
 
@@ -76,16 +76,15 @@ object DeeplinkHandler {
         return if (destination in bottomSheetDestinations) DeeplinkViewLevel.BOTTOM_SHEET else DeeplinkViewLevel.SCREEN
     }
 
-    private fun mapDeeplink(uri: Uri): Deeplink {
+    private fun mapDeeplink(uri: String): Deeplink {
         val accessLevel = getDeeplinkAccessLevel(uri)
-        val uriString = uri.toString()
         val destination = when (accessLevel) {
             DeeplinkAccessLevel.PRE_LOGIN -> {
-                uriString.toPreLoginDestination()
+                uri.toPreLoginDestination()
             }
 
             DeeplinkAccessLevel.POST_LOGIN -> {
-                uriString.toPostLoginDestination()
+                uri.toPostLoginDestination()
             }
 
             DeeplinkAccessLevel.INVALID -> {
@@ -121,7 +120,7 @@ object DeeplinkHandler {
                         add(destination)
                     }
                 }.onFailure {
-                    Log.e(TAG, it.message.orEmpty(), it)
+                    PrintLog.e(TAG, it.message.orEmpty(), it)
                 }.onSuccess {
                     navigationViewModel.resetDeeplink()
                 }
@@ -130,15 +129,15 @@ object DeeplinkHandler {
     }
 
     fun handleDeeplink(
-        uri: Uri,
+        uri: String,
         isLoggedIn: Boolean,
         startState: DeeplinkStartState,
         navBackStack: NavBackStack<NavKey>,
         navigationViewModel: NavigationViewModel,
     ) {
         val deeplink = mapDeeplink(uri)
-        Log.i(TAG, "Deeplink: $deeplink")
-        Log.i(TAG, "Start state: ${startState.name}")
+        PrintLog.i(TAG, "Deeplink: $deeplink")
+        PrintLog.i(TAG, "Start state: ${startState.name}")
 
         deeplink.destination?.let { destination ->
             when (startState) {
@@ -163,7 +162,7 @@ object DeeplinkHandler {
                         }
 
                         DeeplinkAccessLevel.INVALID -> {
-                            Log.e(TAG, "Invalid deeplink")
+                            PrintLog.e(TAG, "Invalid deeplink")
                         }
                     }
                 }

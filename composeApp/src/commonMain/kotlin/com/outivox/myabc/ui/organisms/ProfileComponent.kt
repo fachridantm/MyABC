@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,13 +12,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnTertiaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.img_man_side_view
 import com.outivox.myabc.ui.atoms.Avatar
+import org.jetbrains.compose.resources.DrawableResource
 
 
 data class ProfileComponentAttribute(
-    @DrawableRes val avatarImageRes: Int,
+    val avatarImageRes: DrawableResource,
     val userName: String,
     val userEmail: String,
 )
@@ -44,7 +45,7 @@ fun ProfileComponent(modifier: Modifier = Modifier, attribute: ProfileComponentA
 private fun ProfileComponentPreview() {
     ProfileComponent(
         attribute = ProfileComponentAttribute(
-            avatarImageRes = R.drawable.img_man_side_view,
+            avatarImageRes = Res.drawable.img_man_side_view,
             userName = "Alex Doe",
             userEmail = "alex.doe@email.com",
         ),

@@ -28,3 +28,15 @@ val LocalBottomSheetNavBackStack by lazy {
         error("No NavBackStack provided")
     }
 }
+
+val LocalToastManager by lazy {
+    staticCompositionLocalOf<ToastManager> {
+        error("No ToastManager provided")
+    }
+}
+
+val LocalAppManager by lazy {
+    staticCompositionLocalOf<AppManager> {
+        error("No AppManager provided")
+    }
+}

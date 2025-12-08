@@ -10,6 +10,11 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.outivox.myabc.core.generated.resources"
+}
+
 kotlin {
     androidLibrary {
         namespace = "com.outivox.myabc.core"
@@ -40,6 +45,10 @@ kotlin {
 
             // Koin
             api(libs.koin.core)
+            api(libs.koin.compose.viewmodel)
+
+            // Koin Annotations
+            api(libs.koin.annotations)
 
             // Android Lifecycle
             api(libs.androidx.lifecycle.common)
@@ -48,6 +57,9 @@ kotlin {
             api(libs.androidx.lifecycle.viewmodel.compose)
             api(libs.androidx.lifecycle.viewmodel.navigation3)
             api(libs.androidx.lifecycle.viewmodel.savedstate)
+
+            // Compose Resources
+            implementation(libs.jetbrains.compose.resources)
 
             // Compose UI
             api(libs.jetbrains.compose.ui)

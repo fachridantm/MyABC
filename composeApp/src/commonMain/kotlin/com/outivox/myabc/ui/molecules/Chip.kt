@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.molecules
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,17 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnSecondaryContainer
 import com.outivox.myabc.core.theme.colorSecondaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_chevron_down
+import com.outivox.myabc.generated.resources.ic_date_picker
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 data class ChipAttribute(
-    @DrawableRes val leadingIconRes: Int? = null,
-    @DrawableRes val trailingIconRes: Int? = null,
+    val leadingIconRes: DrawableResource? = null,
+    val trailingIconRes: DrawableResource? = null,
     val label: String,
     val isSelected: Boolean = false,
 )
@@ -88,9 +90,9 @@ private fun ChipPreview() {
     Column {
         Chip(
             attribute = ChipAttribute(
-                leadingIconRes = R.drawable.ic_date_picker,
+                leadingIconRes = Res.drawable.ic_date_picker,
                 label = "Last 30 days",
-                trailingIconRes = R.drawable.ic_chevron_down,
+                trailingIconRes = Res.drawable.ic_chevron_down,
             ),
         )
         Chip(

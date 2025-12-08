@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.organisms
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,18 +17,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.outivox.myabc.R
 import com.outivox.myabc.core.theme.colorOnSecondaryContainer
 import com.outivox.myabc.core.theme.colorOnTertiary
 import com.outivox.myabc.core.theme.colorPrimaryContainer
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_card
+import com.outivox.myabc.generated.resources.ic_history
+import com.outivox.myabc.generated.resources.ic_home_outline
+import com.outivox.myabc.generated.resources.ic_profile_outline
+import com.outivox.myabc.generated.resources.ic_transfer
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 private fun BottomNavMenu(
-    @DrawableRes iconRes: Int,
+    iconRes: DrawableResource,
     title: String,
     isActive: Boolean = false,
     onClick: () -> Unit,
@@ -70,25 +75,25 @@ fun BottomNavBar(onClick: (() -> Unit)? = null) {
         ) {
             BottomNavMenu(
                 title = "Home",
-                iconRes = R.drawable.ic_home_outline,
+                iconRes = Res.drawable.ic_home_outline,
                 isActive = true,
                 onClick = { onClick?.invoke() },
             )
             BottomNavMenu(
                 title = "Cards",
-                iconRes = R.drawable.ic_card,
+                iconRes = Res.drawable.ic_card,
                 isActive = false,
                 onClick = { onClick?.invoke() },
             )
             BottomNavMenu(
                 title = "History",
-                iconRes = R.drawable.ic_history,
+                iconRes = Res.drawable.ic_history,
                 isActive = false,
                 onClick = { onClick?.invoke() },
             )
             BottomNavMenu(
                 title = "Profile",
-                iconRes = R.drawable.ic_profile_outline,
+                iconRes = Res.drawable.ic_profile_outline,
                 isActive = false,
                 onClick = { onClick?.invoke() },
             )
@@ -101,7 +106,7 @@ fun BottomNavBar(onClick: (() -> Unit)? = null) {
 private fun BottomNavMenuPreview() {
     BottomNavMenu(
         title = "Profile",
-        iconRes = R.drawable.ic_transfer,
+        iconRes = Res.drawable.ic_transfer,
         isActive = false,
         onClick = {},
     )

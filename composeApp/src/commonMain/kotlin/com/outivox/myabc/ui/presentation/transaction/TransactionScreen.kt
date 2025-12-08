@@ -1,6 +1,5 @@
 package com.outivox.myabc.ui.presentation.transaction
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outivox.myabc.R
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
+import com.outivox.myabc.generated.resources.Res
+import com.outivox.myabc.generated.resources.ic_arrow_left
+import com.outivox.myabc.generated.resources.ic_chevron_down
+import com.outivox.myabc.generated.resources.ic_cup_outline
+import com.outivox.myabc.generated.resources.ic_date_picker
+import com.outivox.myabc.generated.resources.ic_search
 import com.outivox.myabc.ui.molecules.AccountBalanceCard
 import com.outivox.myabc.ui.molecules.ChipAttribute
 import com.outivox.myabc.ui.organisms.ChipFlexbox
@@ -46,8 +53,8 @@ private fun TransactionScreen(
         topBar = {
             HeaderPage(
                 title = "Transactions",
-                leadingIconRes = R.drawable.ic_arrow_left,
-                trailingIconRes = R.drawable.ic_search,
+                leadingIconRes = Res.drawable.ic_arrow_left,
+                trailingIconRes = Res.drawable.ic_search,
                 onClickLeadingIcon = {
                     event(TransactionScreenEvent.OnBackPressed)
                 },
@@ -58,13 +65,18 @@ private fun TransactionScreen(
         },
         content = {
             TransactionScreenContent(
-                modifier = padding(it),
+                modifier = Modifier.padding(it),
                 state = state,
                 event = event,
             )
         },
     )
-    BackHandler {
+    val navigationEventState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+    NavigationBackHandler(
+        state = navigationEventState,
+    ) {
         event(TransactionScreenEvent.OnBackPressed)
     }
 }
@@ -109,9 +121,9 @@ private fun TransactionScreenPreview() {
             accountBalance = "$1,234.56",
             chipList = listOf(
                 ChipAttribute(
-                    leadingIconRes = R.drawable.ic_date_picker,
+                    leadingIconRes = Res.drawable.ic_date_picker,
                     label = "Last 30 days",
-                    trailingIconRes = R.drawable.ic_chevron_down,
+                    trailingIconRes = Res.drawable.ic_chevron_down,
                 ),
                 ChipAttribute(label = "All", isSelected = true),
                 ChipAttribute(label = "Income"),
@@ -122,13 +134,13 @@ private fun TransactionScreenPreview() {
                     date = "TODAY",
                     itemList = listOf(
                         TransactionResourceItemAttribute(
-                            iconRes = R.drawable.ic_cup_outline,
+                            iconRes = Res.drawable.ic_cup_outline,
                             label = "Amazon.com",
                             description = "Online Purchase",
                             price = "$78.50",
                         ),
                         TransactionResourceItemAttribute(
-                            iconRes = R.drawable.ic_cup_outline,
+                            iconRes = Res.drawable.ic_cup_outline,
                             label = "Starbucks",
                             description = "Coffee",
                             price = "$5.75",
@@ -139,7 +151,7 @@ private fun TransactionScreenPreview() {
                     date = "YESTERDAY",
                     itemList = listOf(
                         TransactionResourceItemAttribute(
-                            iconRes = R.drawable.ic_cup_outline,
+                            iconRes = Res.drawable.ic_cup_outline,
                             label = "Salary Deposit",
                             description = "Direct Deposit",
                             price = "$2,500.00",
@@ -150,13 +162,13 @@ private fun TransactionScreenPreview() {
                     date = "OCT 28, 2023",
                     itemList = listOf(
                         TransactionResourceItemAttribute(
-                            iconRes = R.drawable.ic_cup_outline,
+                            iconRes = Res.drawable.ic_cup_outline,
                             label = "United Airlines",
                             description = "Flight to SFO",
                             price = "$412.30",
                         ),
                         TransactionResourceItemAttribute(
-                            iconRes = R.drawable.ic_cup_outline,
+                            iconRes = Res.drawable.ic_cup_outline,
                             label = "The Cheesecake Factory",
                             description = "Dinner",
                             price = "$95.20",
