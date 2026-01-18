@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * NavigationDestination is used for inner module navigation (within the module)
  * LaunchableDestination is used for inter module navigation (between modules)
  *
- * @sample com.outivox.myabc.navigation.SplashScreenDestination
+ * @sample com.outivox.myabc.core.navigation.SplashScreenDestination
  */
 @Serializable
 abstract class NavigationDestination : NavKey
