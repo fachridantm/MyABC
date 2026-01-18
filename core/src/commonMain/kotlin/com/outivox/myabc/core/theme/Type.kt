@@ -8,13 +8,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.outivox.myabc.core.generated.resources.Res
 import com.outivox.myabc.core.generated.resources.plus_jakarta_sans_regular
+import com.outivox.myabc.core.util.PrintLog
 import org.jetbrains.compose.resources.Font
 
 @Composable
 fun Typography(): Typography {
-    val plusJakartaSans = FontFamily(
-        Font(Res.font.plus_jakarta_sans_regular)
-    )
+    val plusJakartaSans = runCatching {
+        FontFamily(
+            Font(Res.font.plus_jakarta_sans_regular)
+        )
+    }.onFailure {
+        PrintLog.e("Typography", "Font loaded failed. ${it.message}", it)
+    }.onSuccess {
+        PrintLog.d("Typography", "Font loaded successfully")
+    }.getOrDefault(FontFamily.Default)
     return Typography(
         bodyLarge = TextStyle(
             fontFamily = plusJakartaSans,

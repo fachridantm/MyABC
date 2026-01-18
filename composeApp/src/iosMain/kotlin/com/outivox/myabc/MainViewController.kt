@@ -8,7 +8,9 @@ import com.outivox.myabc.core.navigation.SplashScreenDestination
 import com.outivox.myabc.core.theme.MyABCTheme
 import com.outivox.myabc.core.util.LocalAppManager
 import com.outivox.myabc.core.util.LocalNavBackStack
+import com.outivox.myabc.core.util.LocalToastManager
 import com.outivox.myabc.core.util.rememberAppManager
+import com.outivox.myabc.core.util.rememberToastManager
 import com.outivox.myabc.di.initKoin
 import com.outivox.myabc.navigation.AppNavigator
 import com.outivox.myabc.util.navKeySerializer
@@ -26,6 +28,7 @@ fun MainViewController() = ComposeUIViewController(
     MyABCTheme {
         CompositionLocalProvider(
             LocalNavBackStack provides navBackStack,
+            LocalToastManager provides rememberToastManager(),
             LocalAppManager provides rememberAppManager()
         ) {
             AppNavigator()
