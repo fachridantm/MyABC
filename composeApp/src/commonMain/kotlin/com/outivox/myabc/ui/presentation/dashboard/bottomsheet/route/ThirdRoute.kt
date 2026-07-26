@@ -34,19 +34,19 @@ import com.outivox.myabc.core.util.PrintLog
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
-private const val TAG = "SecondRoute"
+private const val TAG = "ThirdRoute"
 
-class SecondRoute(
+class ThirdRoute(
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {
     @Composable
-    override fun getNavRoute() = NavRoute.SecondRoute
+    override fun getNavRoute() = NavRoute.ThirdRoute
 
     @Composable
     override fun getHeaderState(): BottomSheetHeaderState {
         val navBackStack = LocalBottomSheetNavBackStack.current
         return BottomSheetHeaderState(
-            title = "Second route",
+            title = "Third route",
             leadingIcon = {
                 IconButton(onClick = navBackStack::removeLastOrNull) {
                     Icon(
@@ -76,7 +76,7 @@ class SecondRoute(
             textPrimary = "Next",
             onPrimaryButtonClicked = {
                 runCatching {
-                    navBackStack.add(NavRoute.ThirdRoute)
+                    navBackStack.add(NavRoute.FourthRoute)
                 }.onFailure {
                     toastManager.showToast("Failed to navigate")
                     PrintLog.e(TAG, it.message.orEmpty(), it)
@@ -94,7 +94,7 @@ class SecondRoute(
         onCancel: () -> Unit,
     ) {
         val navBackStack = LocalBottomSheetNavBackStack.current
-        SecondContent()
+        ThirdContent()
         val navigationEventState = rememberNavigationEventState(
             currentInfo = NavigationEventInfo.None
         )
@@ -106,13 +106,13 @@ class SecondRoute(
 }
 
 @Composable
-private fun SecondContent() {
+private fun ThirdContent() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Second content")
+        Text(text = "Third content")
     }
 }
 
@@ -120,9 +120,9 @@ private fun SecondContent() {
 @Composable
 private fun Preview() {
     MyABCBottomSheetTheme(
-        headerState = BottomSheetHeaderState(title = "Second Route"),
+        headerState = BottomSheetHeaderState(title = "Third Route"),
         footerState = BottomSheetFooterState(textPrimary = "Next")
     ) {
-        SecondContent()
+        ThirdContent()
     }
 }

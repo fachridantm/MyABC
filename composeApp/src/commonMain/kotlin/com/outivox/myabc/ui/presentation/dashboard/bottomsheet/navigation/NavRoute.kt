@@ -10,4 +10,10 @@ sealed class NavRoute : NavigationDestination() {
 
     @Serializable
     data object SecondRoute : NavRoute()
+
+    @Serializable
+    data object ThirdRoute : NavRoute()
+
+    @Serializable
+    data object FourthRoute : NavRoute()
 }

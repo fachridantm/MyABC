@@ -1,5 +1,6 @@
 package com.outivox.myabc.core.theme
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -55,40 +56,42 @@ fun MyABCBottomSheetTheme(
     content: @Composable () -> Unit,
 ) {
     MyABCTheme {
-        ModalBottomSheet(
-            modifier = Modifier.systemBarsPadding(),
-            sheetState = SheetState(
-                skipPartiallyExpanded = true,
-                initialValue = SheetValue.Expanded,
-                positionalThreshold = { 0f },
-                velocityThreshold = { 0f },
-            ),
-            onDismissRequest = {},
-            containerColor = colorPrimaryContainer,
-            dragHandle = { DragHandleBottomSheet() },
-            shape = RoundedCornerShape(
-                topStart = 24.dp,
-                topEnd = 24.dp,
-            ),
-            content = {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    // Parent of Header and Content
+        Box(modifier = Modifier.fillMaxWidth()) {
+            ModalBottomSheet(
+                modifier = Modifier.systemBarsPadding(),
+                sheetState = SheetState(
+                    skipPartiallyExpanded = true,
+                    initialValue = SheetValue.Expanded,
+                    positionalThreshold = { 0f },
+                    velocityThreshold = { 0f },
+                ),
+                onDismissRequest = {},
+                containerColor = colorPrimaryContainer,
+                dragHandle = { DragHandleBottomSheet() },
+                shape = RoundedCornerShape(
+                    topStart = 24.dp,
+                    topEnd = 24.dp,
+                ),
+                content = {
                     Column(
-                        modifier = Modifier
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
-                        // Header
-                        BottomSheetHeader(headerState)
+                        // Parent of Header and Content
+                        Column(
+                            modifier = Modifier
+                        ) {
+                            // Header
+                            BottomSheetHeader(headerState)
 
-                        // Content
-                        Column { content() }
+                            // Content
+                            Column { content() }
+                        }
+
+                        // Footer
+                        BottomSheetFooter(footerState)
                     }
-
-                    // Footer
-                    BottomSheetFooter(footerState)
-                }
-            },
-        )
+                },
+            )
+        }
     }
 }

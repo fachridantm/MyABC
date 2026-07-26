@@ -27,26 +27,28 @@ import androidx.navigationevent.compose.rememberNavigationEventState
 import com.outivox.myabc.core.bottomsheet.BaseBottomSheetRoute
 import com.outivox.myabc.core.component.BottomSheetFooterState
 import com.outivox.myabc.core.component.BottomSheetHeaderState
+import com.outivox.myabc.core.navigation.LaunchableSampleScreenDestination
 import com.outivox.myabc.core.theme.MyABCBottomSheetTheme
 import com.outivox.myabc.core.util.LocalBottomSheetNavBackStack
+import com.outivox.myabc.core.util.LocalNavBackStack
 import com.outivox.myabc.core.util.LocalToastManager
 import com.outivox.myabc.core.util.PrintLog
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
-private const val TAG = "SecondRoute"
+private const val TAG = "FourthRoute"
 
-class SecondRoute(
+class FourthRoute(
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {
     @Composable
-    override fun getNavRoute() = NavRoute.SecondRoute
+    override fun getNavRoute() = NavRoute.FourthRoute
 
     @Composable
     override fun getHeaderState(): BottomSheetHeaderState {
         val navBackStack = LocalBottomSheetNavBackStack.current
         return BottomSheetHeaderState(
-            title = "Second route",
+            title = "Fourth route",
             leadingIcon = {
                 IconButton(onClick = navBackStack::removeLastOrNull) {
                     Icon(
@@ -71,12 +73,14 @@ class SecondRoute(
     @Composable
     override fun getFooterState(): BottomSheetFooterState {
         val toastManager = LocalToastManager.current
-        val navBackStack = LocalBottomSheetNavBackStack.current
+        val navBackStack = LocalNavBackStack.current
         return BottomSheetFooterState(
-            textPrimary = "Next",
+            textPrimary = "Navigate to Single Screen",
             onPrimaryButtonClicked = {
                 runCatching {
-                    navBackStack.add(NavRoute.ThirdRoute)
+                    toastManager.showToast("End of route")
+                    onCancel()
+                    navBackStack.add(LaunchableSampleScreenDestination)
                 }.onFailure {
                     toastManager.showToast("Failed to navigate")
                     PrintLog.e(TAG, it.message.orEmpty(), it)
@@ -94,7 +98,7 @@ class SecondRoute(
         onCancel: () -> Unit,
     ) {
         val navBackStack = LocalBottomSheetNavBackStack.current
-        SecondContent()
+        FourthContent()
         val navigationEventState = rememberNavigationEventState(
             currentInfo = NavigationEventInfo.None
         )
@@ -106,13 +110,13 @@ class SecondRoute(
 }
 
 @Composable
-private fun SecondContent() {
+private fun FourthContent() {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Second content")
+        Text(text = "Fourth content")
     }
 }
 
@@ -120,9 +124,9 @@ private fun SecondContent() {
 @Composable
 private fun Preview() {
     MyABCBottomSheetTheme(
-        headerState = BottomSheetHeaderState(title = "Second Route"),
+        headerState = BottomSheetHeaderState(title = "Fourth Route"),
         footerState = BottomSheetFooterState(textPrimary = "Next")
     ) {
-        SecondContent()
+        FourthContent()
     }
 }
