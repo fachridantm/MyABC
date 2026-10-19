@@ -103,27 +103,27 @@ fun SettingScreen(
         tvUserName.text = state.userName
         tvUserEmail.text = state.userEmail
 
-        // Bind legacy XML Menu Sections dynamically
-        xmlMenuSectionsContainer.removeAllViews()
-        val inflater = LayoutInflater.from(root.context)
-        state.settingMenuList.forEach { section ->
-            val sectionTitle = TextView(root.context).apply {
-                text = section.title
-                setTextColor(android.graphics.Color.parseColor("#007BFF"))
-                textSize = 14f
-                setTypeface(null, android.graphics.Typeface.BOLD)
-                setPadding(0, 24, 0, 12)
-            }
-            xmlMenuSectionsContainer.addView(sectionTitle)
-
-            section.itemList.forEach { item ->
-                val itemView = TextView(root.context).apply {
-                    text = "${item.label}${if (item.description != null) "\n" + item.description else ""}"
-                    setTextColor(android.graphics.Color.parseColor("#343A40"))
-                    textSize = 16f
-                    setPadding(16, 20, 16, 20)
+        // Bind legacy XML Menu Sections dynamically (only add if container is empty to avoid re-layout cycles)
+        if (xmlMenuSectionsContainer.childCount == 0 && state.settingMenuList.isNotEmpty()) {
+            state.settingMenuList.forEach { section ->
+                val sectionTitle = TextView(root.context).apply {
+                    text = section.title
+                    setTextColor(android.graphics.Color.parseColor("#007BFF"))
+                    textSize = 14f
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+                    setPadding(0, 24, 0, 12)
                 }
-                xmlMenuSectionsContainer.addView(itemView)
+                xmlMenuSectionsContainer.addView(sectionTitle)
+
+                section.itemList.forEach { item ->
+                    val itemView = TextView(root.context).apply {
+                        text = "${item.label}${if (item.description != null) "\n" + item.description else ""}"
+                        setTextColor(android.graphics.Color.parseColor("#343A40"))
+                        textSize = 16f
+                        setPadding(16, 20, 16, 20)
+                    }
+                    xmlMenuSectionsContainer.addView(itemView)
+                }
             }
         }
 
