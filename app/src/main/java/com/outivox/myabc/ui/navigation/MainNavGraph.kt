@@ -212,12 +212,8 @@ fun EntryProviderScope<NavKey>.mainNavGraph() {
                         navBackStack.removeLastOrNull()
                     }
 
-                    // TODO (Step 4.1): In the finished Compose migration, route OnLogoutClicked to LaunchableLoginScreenDestination:
-                    // SettingScreenEvent.OnLogoutClicked -> {
-                    //     navBackStack.add(LaunchableLoginScreenDestination)
-                    // }
                     SettingScreenEvent.OnLogoutClicked -> {
-                        navBackStack.removeLastOrNull()
+                        navBackStack.add(LaunchableLoginScreenDestination)
                     }
                 }
             }
