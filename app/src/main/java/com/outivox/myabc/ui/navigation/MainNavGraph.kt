@@ -4,20 +4,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.outivox.core.navigation.DashboardScreenDestination
+import com.outivox.core.navigation.LaunchableLoginScreenDestination
 import com.outivox.core.navigation.LaunchableSampleScreenDestination
 import com.outivox.core.navigation.NotificationScreenDestination
+import com.outivox.core.navigation.SettingScreenDestination
 import com.outivox.core.navigation.SplashScreenDestination
+import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.R
 import com.outivox.myabc.ui.molecules.MenuCardAttribute
 import com.outivox.myabc.ui.organisms.BillSectionResourceItemAttribute
 import com.outivox.myabc.ui.organisms.FavoriteSectionResourceItemAttribute
+import com.outivox.myabc.ui.organisms.MenuResourceItemAttribute
 import com.outivox.myabc.ui.organisms.NotificationResourceItemAttribute
 import com.outivox.myabc.ui.organisms.NotificationSectionAttribute
+import com.outivox.myabc.ui.organisms.SettingMenuSectionAttribute
 import com.outivox.myabc.ui.presentation.dashboard.DashboardScreen
 import com.outivox.myabc.ui.presentation.dashboard.DashboardScreenState
 import com.outivox.myabc.ui.presentation.notification.NotificationScreen
 import com.outivox.myabc.ui.presentation.notification.NotificationScreenState
 import com.outivox.myabc.ui.presentation.sample.SampleScreen
+import com.outivox.myabc.ui.presentation.setting.SettingScreen
+import com.outivox.myabc.ui.presentation.setting.SettingScreenEvent
+import com.outivox.myabc.ui.presentation.setting.SettingScreenState
 import com.outivox.myabc.ui.presentation.splash.SplashScreen
 
 private const val TAG = "MainNavGraph"
@@ -141,6 +149,78 @@ fun EntryProviderScope<NavKey>.mainNavGraph() {
                     ),
                 ),
             ),
+        )
+    }
+
+    entry<SettingScreenDestination> {
+        val navBackStack = LocalNavBackStack.current
+        SettingScreen(
+            state = SettingScreenState(
+                userAvatar = R.drawable.img_man_side_view,
+                userName = "Alex Doe",
+                userEmail = "alex.doe@email.com",
+                settingMenuList = listOf(
+                    SettingMenuSectionAttribute(
+                        title = "PERSONAL INFORMATION",
+                        itemList = listOf(
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Contact Details",
+                                description = "Manage your phone and email",
+                            ),
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Mailing Address",
+                            ),
+                        ),
+                    ),
+                    SettingMenuSectionAttribute(
+                        title = "SECURITY",
+                        itemList = listOf(
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Change Password",
+                            ),
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Manage Biometrics",
+                            ),
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Linked Accounts & Devices",
+                            ),
+                        ),
+                    ),
+                    SettingMenuSectionAttribute(
+                        title = "APP PREFERENCES",
+                        itemList = listOf(
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Notification",
+                            ),
+                            MenuResourceItemAttribute(
+                                iconRes = R.drawable.ic_setting,
+                                label = "Theme",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            event = { screenEvent ->
+                when (screenEvent) {
+                    SettingScreenEvent.OnBackPressed -> {
+                        navBackStack.removeLastOrNull()
+                    }
+
+                    // TODO (Step 4.1): In the finished Compose migration, route OnLogoutClicked to LaunchableLoginScreenDestination:
+                    // SettingScreenEvent.OnLogoutClicked -> {
+                    //     navBackStack.add(LaunchableLoginScreenDestination)
+                    // }
+                    SettingScreenEvent.OnLogoutClicked -> {
+                        navBackStack.removeLastOrNull()
+                    }
+                }
+            }
         )
     }
 }

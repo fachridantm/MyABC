@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.outivox.core.navigation.NotificationScreenDestination
+import com.outivox.core.navigation.SettingScreenDestination
 import com.outivox.core.theme.MyABCTheme
 import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.R
@@ -124,7 +125,12 @@ fun DashboardScreen(
         bottomBar = {
             BottomNavBar(
                 onClick = {
-                    Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                    runCatching {
+                        navBackStack.add(SettingScreenDestination)
+                    }.onFailure {
+                        Toast.makeText(context, "Failed to navigate to settings", Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, it.message.orEmpty(), it)
+                    }
                 },
             )
         },
