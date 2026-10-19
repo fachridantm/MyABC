@@ -30,10 +30,10 @@
             android:id="@+id/iv_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
             android:src="@drawable/ic_arrow_left"
-            app:tint="#FFFFFF" />
+            android:tint="#FFFFFF" />
 
         <TextView
             android:id="@+id/tv_header_title"
