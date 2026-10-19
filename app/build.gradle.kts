@@ -44,8 +44,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-        // TODO (Step 4.2): Remove viewBinding = true after deleting layout_setting_screen.xml and migrating to pure Compose
-        viewBinding = true
     }
 }
 

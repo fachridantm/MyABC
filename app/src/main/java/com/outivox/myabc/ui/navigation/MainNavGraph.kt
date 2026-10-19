@@ -270,12 +270,8 @@ fun NavGraphBuilder.mainNavGraph() {
                         navController.popBackStack()
                     }
 
-                    // TODO (Step 4.1): In the finished Compose migration, route OnLogoutClicked to LaunchableLoginScreenDestination:
-                    // SettingScreenEvent.OnLogoutClicked -> {
-                    //     navController.navigate(LaunchableLoginScreenDestination)
-                    // }
                     SettingScreenEvent.OnLogoutClicked -> {
-                        navController.popBackStack()
+                        navController.navigate(LaunchableLoginScreenDestination)
                     }
                 }
             }
