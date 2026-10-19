@@ -1,4 +1,4 @@
-package com.outivox.myabc.ui.utils
+package com.outivox.myabc.ui.animation
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
