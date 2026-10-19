@@ -13,6 +13,12 @@ import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.FirstRoute
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.route.SecondRoute
 
+// TODO (Step 8.2): In Navigation 3:
+// 1. Remove `bottomSheetFlow` parameter.
+// 2. Provide LocalBottomSheetNavBackStack provides rememberNavBackStack(NavRoute.FirstRoute):
+//    CompositionLocalProvider(LocalBottomSheetNavBackStack provides rememberNavBackStack(NavRoute.FirstRoute)) {
+//        SampleBottomSheetFlow(onCancel = onCancel)
+//    }
 @Composable
 fun BottomSheetDashboardContainer(
     bottomSheetFlow: BottomSheetFlow= rememberBottomSheetFlow(),

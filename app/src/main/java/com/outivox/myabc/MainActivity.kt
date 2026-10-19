@@ -28,6 +28,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    // TODO (Step 5.1): Replace NavHostController with NavBackStack<NavKey>:
+    // import androidx.navigation3.runtime.NavBackStack
+    // import androidx.navigation3.runtime.NavKey
+    // private lateinit var navBackStack: NavBackStack<NavKey>
     private lateinit var navController: NavHostController
 
     private val navigationViewModel by viewModels<NavigationViewModel>()
@@ -58,6 +62,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            // TODO (Step 5.2): In Navigation 3:
+            // 1. Initialize navBackStack:
+            //    navBackStack = rememberNavBackStack(SplashScreenDestination)
+            // 2. Set keep-on-screen condition:
+            //    splashScreen.setKeepOnScreenCondition { navBackStack.last() is SplashScreenDestination }
+            // 3. Provide LocalNavBackStack provides navBackStack
+            // 4. Pass navBackStack to DeeplinkHandler.handleDeeplink
             navController = rememberNavController()
             splashScreen.setKeepOnScreenCondition { navController.checkCurrentDestination<SplashScreenDestination>() }
 

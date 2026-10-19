@@ -14,3 +14,20 @@ val LocalBottomSheetNavController by lazy {
         error("No NavHostController provided")
     }
 }
+
+// TODO (Step 2.2): Navigation 3 uses NavBackStack<NavKey> instead of NavHostController.
+// Define LocalNavBackStack and LocalBottomSheetNavBackStack using:
+// import androidx.navigation3.runtime.NavBackStack
+// import androidx.navigation3.runtime.NavKey
+//
+// val LocalNavBackStack by lazy {
+//     staticCompositionLocalOf<NavBackStack<NavKey>> {
+//         error("No NavBackStack provided")
+//     }
+// }
+//
+// val LocalBottomSheetNavBackStack by lazy {
+//     staticCompositionLocalOf<NavBackStack<NavKey>> {
+//         error("No NavBackStack provided")
+//     }
+// }

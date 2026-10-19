@@ -35,6 +35,11 @@ import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRou
 
 private const val TAG = "FirstRoute"
 
+// TODO (Step 8.3): In Navigation 3:
+// 1. Return `NavRoute.FirstRoute` directly as `NavKey` from `getNavRoute()`
+// 2. Obtain `navBackStack = LocalBottomSheetNavBackStack.current`
+// 3. In onPrimaryButtonClicked, navigate with `navBackStack.add(NavRoute.SecondRoute)`
+// 4. Update getContent parameters (remove bottomSheetFlow, arguments is NavKey) and use `navBackStack::removeLastOrNull` for BackHandler
 class FirstRoute(
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {

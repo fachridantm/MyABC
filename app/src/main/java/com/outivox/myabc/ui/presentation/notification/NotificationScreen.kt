@@ -26,6 +26,10 @@ sealed class NotificationScreenEvent {
     data object OnBackPressed : NotificationScreenEvent()
 }
 
+// TODO (Step 7.4): In Navigation 3:
+// 1. Obtain `navBackStack = LocalNavBackStack.current`
+// 2. In onClickLeadingIcon and OnBackPressed event handling, call `navBackStack.removeLastOrNull()`
+// 3. Move the BackHandler directly into NotificationScreenContent
 @Composable
 fun NotificationScreen(
     state: NotificationScreenState = NotificationScreenState(),

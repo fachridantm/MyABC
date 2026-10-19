@@ -61,6 +61,11 @@ sealed class DashboardScreenEvent {
     data object OnBottomNavClicked : DashboardScreenEvent()
 }
 
+// TODO (Step 7.3): In Navigation 3:
+// 1. Obtain `navBackStack = LocalNavBackStack.current`
+// 2. In onClickNotification, navigate via `navBackStack.add(NotificationScreenDestination)`
+// 3. Handle screen events locally inside DashboardScreen: on OnMenuClicked set showBottomSheet = true, on OnBackPressed call activity?.finishAndRemoveTask()
+// 4. Remove `bottomSheetFlow = rememberBottomSheetFlow(...)` parameter from BottomSheetDashboardContainer
 @Composable
 fun DashboardScreen(
     state: DashboardScreenState = DashboardScreenState(),

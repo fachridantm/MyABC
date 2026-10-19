@@ -11,6 +11,23 @@ import com.outivox.core.navigation.slideOutToStart
 import com.outivox.core.util.LocalNavController
 import com.outivox.myabc.ui.navigation.mainNavGraph
 
+// TODO (Step 5.3): In Navigation 3, NavHost is replaced by NavDisplay:
+// 1. Obtain navBackStack from LocalNavBackStack.current
+// 2. Call NavDisplay(
+//        backStack = navBackStack,
+//        entryDecorators = listOf(
+//            rememberSaveableStateHolderNavEntryDecorator(),
+//            rememberViewModelStoreNavEntryDecorator(),
+//        ),
+//        onBack = { navBackStack.removeLastOrNull() },
+//        entryProvider = entryProvider {
+//            mainNavGraph()
+//            authNavGraph()
+//        },
+//        transitionSpec = { slideInFromEnd() togetherWith ExitTransition.KeepUntilTransitionsFinished },
+//        popTransitionSpec = { EnterTransition.None togetherWith slideOutToStart() },
+//        predictivePopTransitionSpec = { EnterTransition.None togetherWith slideOutToStart() },
+//    )
 @Composable
 fun AppNavigator() {
     val navController = LocalNavController.current

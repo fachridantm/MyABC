@@ -21,6 +21,11 @@ import com.outivox.core.component.FooterBottomSheet
 import com.outivox.core.component.HeaderBottomSheet
 import com.outivox.core.theme.colorPrimaryContainer
 
+// TODO (Step 4.4): Update BottomSheetRoutes for Navigation 3:
+// 1. Change `val navRoute: String` to `val navRoute: NavKey`
+// 2. Change `arguments: List<NamedNavArgument>?` to `metadata: Map<String, Any> = emptyMap()`
+// 3. Update content lambda signature to `(NavKey, SheetState, ScrollState) -> Unit`
+// 4. Remove `bottomSheetFlow` parameter from `BottomSheetFlowContent`
 data class BottomSheetRoutes(
     val navRoute: String,
     val arguments: List<NamedNavArgument>? = null,

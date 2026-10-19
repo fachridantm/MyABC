@@ -10,6 +10,9 @@ import kotlinx.serialization.Serializable
  *
  * @sample com.outivox.myabc.navigation.SplashScreenDestination
  */
+// TODO (Step 2.1): In Navigation 3, all destinations must implement androidx.navigation3.runtime.NavKey.
+// 1. Import androidx.navigation3.runtime.NavKey
+// 2. Change `abstract class NavigationDestination` to `abstract class NavigationDestination : NavKey`
 @Serializable
 abstract class NavigationDestination
 

@@ -52,3 +52,27 @@ inline fun <reified T : NavigationDestination> NavHostController.checkCurrentDes
 fun NavHostController.checkPreviousDestionationIsNull(): Boolean {
     return previousBackStackEntry?.destination?.route == null
 }
+
+// TODO (Step 2.3): In Navigation 3, back stack inspection operates on NavBackStack<NavKey>.
+// Add the following extension functions for NavBackStack<NavKey>:
+// import androidx.navigation3.runtime.NavBackStack
+// import androidx.navigation3.runtime.NavKey
+//
+// fun NavBackStack<NavKey>.checkPreviousDestination(destination: NavKey): Boolean {
+//     val previousDestination = this.getOrNull(this.size - 2)
+//     println("Previous destination: $previousDestination")
+//     return previousDestination == destination
+// }
+//
+// fun NavBackStack<NavKey>.checkCurrentDestination(destination: NavKey): Boolean {
+//     val currentDestination = this.getOrNull(this.size - 1)
+//     println("Current destination: $currentDestination")
+//     return currentDestination == destination
+// }
+//
+// fun NavBackStack<NavKey>.checkPreviousDestionationIsNull(): Boolean {
+//     val previousDestination = this.getOrNull(this.size - 2)
+//     println("Previous destination: $previousDestination")
+//     return previousDestination == null
+// }
+

@@ -42,6 +42,15 @@ interface BottomSheetFlowScope {
      * will be invoked.
      * @param content is the composable content.
      */
+    // TODO (Step 4.1): In Navigation 3, route is typed as NavKey and metadata is passed as Map<String, Any>:
+    // fun route(
+    //     route: NavKey,
+    //     metadata: Map<String, Any>,
+    //     onDragDismiss: () -> Boolean = { true },
+    //     onGreyAreaDismiss: () -> Boolean = { true },
+    //     isBottomSheet: Boolean = true,
+    //     content: @Composable (SheetState, NavKey) -> Unit,
+    // )
     @OptIn(ExperimentalMaterial3Api::class)
     fun route(
         route: String,
@@ -53,6 +62,8 @@ interface BottomSheetFlowScope {
     )
 }
 
+// TODO (Step 4.2): In Navigation 3, start destinations are handled by NavBackStack.
+// BottomSheetFlow and rememberBottomSheetFlow can be removed once migrated.
 data class BottomSheetFlow(
     val startDestination: String,
 )
@@ -67,6 +78,9 @@ fun rememberBottomSheetFlow(
     )
 }
 
+// TODO (Step 4.3): Replace NavHost with NavDisplay for bottom sheet flows.
+// 1. Read `bottomSheetNavBackStack = LocalBottomSheetNavBackStack.current`
+// 2. Call NavDisplay(backStack = bottomSheetNavBackStack, entryDecorators = listOf(rememberSaveableStateHolderNavEntryDecorator(), rememberViewModelStoreNavEntryDecorator()), onBack = { bottomSheetNavBackStack.removeLastOrNull() }, entryProvider = entryProvider { ... })
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseBottomSheetFlow(

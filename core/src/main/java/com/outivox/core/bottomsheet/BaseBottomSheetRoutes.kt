@@ -17,6 +17,12 @@ import com.outivox.core.util.LocalBottomSheetNavController
  * @param VM The type of the ViewModel associated with this route.
  *
  ***/
+// TODO (Step 4.5): Migrate BaseBottomSheetRoute to Navigation 3:
+// 1. In `BottomSheetRoute`, remove `bottomSheetFlow` parameter.
+// 2. Change `getNavRoute(): String` to `getNavRoute(): NavKey`
+// 3. Replace `getArguments(): List<NamedNavArgument>` with `getMetadata(): Map<String, Any> = emptyMap()`
+// 4. Update `getContent` to accept `arguments: NavKey` instead of `NavBackStackEntry`.
+// 5. In `onDragDismiss` / `onGreyAreaDismiss`, replace `NavHostController` with `NavBackStack<NavKey>` and call `navBackStack.removeLastOrNull()`.
 interface BottomSheetRoute<VM> {
     @Composable
     fun createRoute(

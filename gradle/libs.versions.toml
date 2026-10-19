@@ -56,6 +56,7 @@ material3Adaptive = "1.3.0-alpha02"
 # Compose Navigation
 navigationKtx = "2.9.6"
 # Compose Navigation 3
+# TODO (Step 1.1): Upgrade Navigation 3 from 1.0.0-rc01 to the stable 1.0.0 release -> navigation3 = "1.0.0"
 navigation3 = "1.0.0-rc01"
 
 [libraries]

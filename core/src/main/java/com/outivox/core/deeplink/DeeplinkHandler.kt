@@ -101,6 +101,12 @@ object DeeplinkHandler {
         )
     }
 
+    // TODO (Step 3.1): Migrate handleDeeplinkNavigation to accept `navController: NavBackStack<NavKey>`.
+    // In Navigation 3, popping to start and navigating is accomplished directly on the backstack:
+    // navController.apply {
+    //     clear()
+    //     add(destination)
+    // }
     private fun handleDeeplinkNavigation(
         deeplink: Deeplink,
         destination: NavigationDestination,
@@ -130,6 +136,7 @@ object DeeplinkHandler {
         }
     }
 
+    // TODO (Step 3.2): Change parameter `navController: NavHostController` to `navBackStack: NavBackStack<NavKey>`.
     fun handleDeeplink(
         uri: Uri,
         isLoggedIn: Boolean,

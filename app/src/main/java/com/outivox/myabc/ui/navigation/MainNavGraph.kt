@@ -29,6 +29,10 @@ import com.outivox.myabc.ui.presentation.splash.SplashScreen
 
 private const val TAG = "MainNavGraph"
 
+// TODO (Step 6.1): In Navigation 3, navigation graphs are defined as extensions on EntryProviderScope<NavKey>:
+// 1. Change receiver `NavGraphBuilder.mainNavGraph()` to `EntryProviderScope<NavKey>.mainNavGraph()`
+// 2. Replace `composable<T>` with `entry<T>`
+// 3. Delegate screen event handling directly inside the respective screens (DashboardScreen and NotificationScreen)
 fun NavGraphBuilder.mainNavGraph() {
     composable<LaunchableSampleScreenDestination> {
         SampleScreen()

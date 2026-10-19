@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.outivox.core.theme.MyABCTheme
 
+// TODO (Step 4.6): Update default background color of BottomSheetHeaderState to `colorPrimaryContainer` (import com.outivox.core.theme.colorPrimaryContainer)
 data class BottomSheetHeaderState(
     val title: String = "",
     val subtitle: String = "",

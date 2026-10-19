@@ -19,6 +19,10 @@ import com.outivox.core.util.checkPreviousDestionationIsNull
 
 private const val TAG = "SampleScreen"
 
+// TODO (Step 7.5): In Navigation 3:
+// 1. Replace `LocalNavController.current` with `navBackStack = LocalNavBackStack.current`
+// 2. Update back checking: `if (navBackStack.checkPreviousDestination(LaunchableLoginScreenDestination) || navBackStack.checkPreviousDestionationIsNull())`
+// 3. Replace `navController.popBackStack()` with `navBackStack.removeLastOrNull()`
 @Composable
 fun SampleScreen() {
     val activity = LocalActivity.current

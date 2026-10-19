@@ -26,6 +26,10 @@ import com.outivox.core.util.getOrNewViewModelStoreOwner
 
 private const val TAG = "LoginScreen"
 
+// TODO (Step 7.2): In Navigation 3:
+// 1. Replace `LocalNavController.current` with `navBackStack = LocalNavBackStack.current`
+// 2. Pass navBackStack to DeeplinkHandler.handleDeeplink
+// 3. Replace `navController.popBackStack()` with `navBackStack.removeLastOrNull()`
 @Composable
 fun LoginScreen(
     navigationViewModel: NavigationViewModel = getOrNewViewModelStoreOwner(),

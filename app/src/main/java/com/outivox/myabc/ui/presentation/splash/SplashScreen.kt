@@ -28,6 +28,13 @@ fun SplashScreen(
     val initState by splashViewModel.initState.collectAsStateWithLifecycle()
     val deeplink by navigationViewModel.deeplink.collectAsStateWithLifecycle()
 
+    // TODO (Step 7.1): In Navigation 3:
+    // 1. Replace `LocalNavController.current` with `navBackStack = LocalNavBackStack.current`
+    // 2. Replace `navController.navigate(destination) { popUpTo(...) { inclusive = true } }` with:
+    //    navBackStack.apply {
+    //        clear()
+    //        add(destination)
+    //    }
     val navController = LocalNavController.current
     val context = LocalContext.current
 

@@ -34,6 +34,11 @@ import com.outivox.core.util.LocalNavController
 import com.outivox.myabc.ui.presentation.dashboard.DashboardViewModel
 import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.navigation.NavRoute
 
+// TODO (Step 8.4): In Navigation 3:
+// 1. Return `NavRoute.SecondRoute` directly as `NavKey` from `getNavRoute()`
+// 2. In getHeaderState, use `LocalBottomSheetNavBackStack.current` and `navBackStack.removeLastOrNull()`
+// 3. In getFooterState, use `LocalNavBackStack.current` and `navBackStack.add(LaunchableSampleScreenDestination)`
+// 4. Update getContent parameters (remove bottomSheetFlow, arguments is NavKey) and use `navBackStack::removeLastOrNull`
 class SecondRoute (
     private val onCancel: () -> Unit = {},
 ) : BaseBottomSheetRoute<DashboardViewModel>() {
