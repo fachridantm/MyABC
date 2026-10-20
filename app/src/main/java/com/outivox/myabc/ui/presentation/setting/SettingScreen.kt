@@ -14,12 +14,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.outivox.myabc.R
 import com.outivox.myabc.databinding.LayoutSettingScreenBinding
 import com.outivox.myabc.ui.organisms.HeaderPage
@@ -58,6 +60,8 @@ fun SettingScreen(
     state: SettingScreenState = SettingScreenState(),
     event: (SettingScreenEvent) -> Unit = {},
 ) {
+    val menuAdapter = remember { SettingMenuAdapter() }
+
     // TODO (Step 3.1): Replace AndroidViewBinding with pure Jetpack Compose Scaffold:
     // Scaffold(
     //     modifier = Modifier.systemBarsPadding(),
@@ -103,28 +107,11 @@ fun SettingScreen(
         tvUserName.text = state.userName
         tvUserEmail.text = state.userEmail
 
-        // Bind legacy XML Menu Sections dynamically (only add if container is empty to avoid re-layout cycles)
-        if (xmlMenuSectionsContainer.childCount == 0 && state.settingMenuList.isNotEmpty()) {
-            state.settingMenuList.forEach { section ->
-                val sectionTitle = TextView(root.context).apply {
-                    text = section.title
-                    setTextColor(android.graphics.Color.parseColor("#007BFF"))
-                    textSize = 14f
-                    setTypeface(null, android.graphics.Typeface.BOLD)
-                    setPadding(0, 24, 0, 12)
-                }
-                xmlMenuSectionsContainer.addView(sectionTitle)
-
-                section.itemList.forEach { item ->
-                    val itemView = TextView(root.context).apply {
-                        text = "${item.label}${if (item.description != null) "\n" + item.description else ""}"
-                        setTextColor(android.graphics.Color.parseColor("#343A40"))
-                        textSize = 16f
-                        setPadding(16, 20, 16, 20)
-                    }
-                    xmlMenuSectionsContainer.addView(itemView)
-                }
-            }
+        // Bind legacy XML RecyclerView for Menu Sections
+        if (rvSettingMenu.adapter == null) {
+            rvSettingMenu.layoutManager = LinearLayoutManager(root.context)
+            rvSettingMenu.adapter = menuAdapter
+            menuAdapter.submitList(state.settingMenuList)
         }
 
         // Bind legacy XML Logout Button
@@ -170,22 +157,20 @@ fun SettingScreen(
         //     setContent {
         //         ProfileComponent(
         //             attribute = ProfileComponentAttribute(
-        //                 avatarImageRes = state.userAvatar,
-        //                 userName = state.userName,
-        //                 userEmail = state.userEmail,
+        //                 imageRes = state.userAvatar,
+        //                 name = state.userName,
+        //                 email = state.userEmail,
         //             )
         //         )
         //     }
         // }
-        // xmlMenuSectionsContainer.visibility = android.view.View.GONE
+        // rvSettingMenu.visibility = android.view.View.GONE
         // composeMenuSections.apply {
         //     visibility = android.view.View.VISIBLE
         //     setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         //     setContent {
-        //         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        //             state.settingMenuList.forEach { section ->
-        //                 SettingMenuSection(attribute = section)
-        //             }
+        //         state.settingMenuList.forEach { section ->
+        //             SettingMenuSection(attribute = section)
         //         }
         //     }
         // }

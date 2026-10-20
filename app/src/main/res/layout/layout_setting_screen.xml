@@ -127,12 +127,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
 
-            <!-- Legacy XML Menu Sections Container -->
-            <LinearLayout
-                android:id="@+id/xml_menu_sections_container"
+            <!-- Legacy XML RecyclerView for Menu Sections -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_setting_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:nestedScrollingEnabled="false" />
 
             <!-- TODO (Step 2.1): Hybrid ComposeView Menu Sections slot (initially GONE, activated in Step 2.2) -->
             <androidx.compose.ui.platform.ComposeView
