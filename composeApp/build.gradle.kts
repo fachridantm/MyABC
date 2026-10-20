@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.devtools.ksp)
     // Compose
     alias(libs.plugins.compose.multiplatform)
 }
@@ -19,7 +18,7 @@ compose.resources {
 
 android {
     namespace = "com.outivox.myabc"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.outivox.myabc"

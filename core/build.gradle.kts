@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.devtools.ksp)
     // Compose
     alias(libs.plugins.compose.multiplatform)
 }
@@ -17,7 +16,7 @@ compose.resources {
 kotlin {
     androidLibrary {
         namespace = "com.outivox.myabc.core"
-        compileSdk = 36
+        compileSdk = 37
     }
 
     val xcfName = "core"

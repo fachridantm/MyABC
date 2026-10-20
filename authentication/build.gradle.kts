@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.devtools.ksp)
     // Compose
     alias(libs.plugins.compose.multiplatform)
 }
@@ -18,7 +17,7 @@ compose.resources {
 kotlin {
     androidLibrary {
         namespace = "com.outivox.myabc.authentication"
-        compileSdk = 36
+        compileSdk = 37
     }
 
     val xcfName = "authentication"
