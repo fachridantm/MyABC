@@ -49,60 +49,7 @@ fun EntryProviderScope<NavKey>.mainNavGraph() {
     }
 
     entry<DashboardScreenDestination> {
-        DashboardScreen(
-            state = DashboardScreenState(
-                userAvatar = R.drawable.img_man_side_view,
-                userName = "Alex",
-                totalBalance = "$12,345.67",
-                accountNumber = "...1234",
-                menuList = listOf(
-                    MenuCardAttribute(
-                        iconRes = R.drawable.ic_transfer,
-                        label = "Transfer",
-                    ),
-                    MenuCardAttribute(
-                        iconRes = R.drawable.ic_wallet,
-                        label = "Deposit",
-                    ),
-                    MenuCardAttribute(
-                        iconRes = R.drawable.ic_receipt,
-                        label = "Pay Bills",
-                    ),
-                    MenuCardAttribute(
-                        iconRes = R.drawable.ic_menu_outline,
-                        label = "More",
-                    ),
-                ),
-                paymentList = listOf(
-                    BillSectionResourceItemAttribute(
-                        iconRes = R.drawable.ic_netflix_square,
-                        label = "Netflix",
-                        description = "Due: Oct 28",
-                        price = "$15.49",
-                        iconBackgroundColor = Color.Magenta,
-                    ),
-                    BillSectionResourceItemAttribute(
-                        iconRes = R.drawable.ic_light_bulb,
-                        label = "City Power",
-                        description = "Due: Nov 02",
-                        price = "$78.20",
-                        iconBackgroundColor = Color.Yellow,
-                    ),
-                ),
-                favoriteList = listOf(
-                    FavoriteSectionResourceItemAttribute(
-                        imageRes = R.drawable.img_mom_portrait,
-                        label = "Mom",
-                        description = "Last transfer: $50.00",
-                    ),
-                    FavoriteSectionResourceItemAttribute(
-                        imageRes = R.drawable.img_landlord_portrait,
-                        label = "Landlord",
-                        description = "Last transfer: $1200.00",
-                    ),
-                ),
-            ),
-        )
+        DashboardScreen()
     }
 
     entry<NotificationScreenDestination> {

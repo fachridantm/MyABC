@@ -33,6 +33,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.outivox.core.navigation.NotificationScreenDestination
 import com.outivox.core.navigation.SettingScreenDestination
 import com.outivox.core.navigation.TransactionScreenDestination
@@ -87,26 +89,35 @@ sealed class DashboardScreenEvent {
 // 2. StateFlow<T>: hot reactive observable stream from ViewModels, collected safely with `collectAsStateWithLifecycle()`.
 @Composable
 fun DashboardScreen(
-    state: DashboardScreenState = DashboardScreenState(),
+    viewModel: DashboardViewModel = hiltViewModel(),
+) {
+    val state by viewModel.screenState.collectAsStateWithLifecycle()
+    DashboardScreen(
+        state = state,
+        onEvent = viewModel::onEvent,
+    )
+}
+
+@Composable
+fun DashboardScreen(
+    state: DashboardScreenState,
+    onEvent: (DashboardScreenEvent) -> Unit = {},
 ) {
     val activity = LocalActivity.current
     val context = LocalContext.current
     val navBackStack = LocalNavBackStack.current
 
     var showBottomSheet by remember { mutableStateOf(false) }
-    var localIsBalanceVisible by remember { mutableStateOf(state.isBalanceVisible) }
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // TODO (Step 3.2): Trigger initial dashboard data load using LaunchedEffect(Unit).
-    // Executes once when entering composition; restarts only if key changes.
     LaunchedEffect(Unit) {
-        Log.i(TAG, "DashboardScreen entered composition: Initializing dashboard data")
+        onEvent(DashboardScreenEvent.OnLoadDashboard)
     }
 
-    // TODO (Step 3.3): Display one-off feedback using SnackbarHostState and LaunchedEffect.
     LaunchedEffect(state.userMessage) {
         state.userMessage?.let { message ->
             snackbarHostState.showSnackbar(message)
+            onEvent(DashboardScreenEvent.OnClearMessage)
         }
     }
 
@@ -118,7 +129,6 @@ fun DashboardScreen(
                 userAvatar = state.userAvatar,
                 userName = state.userName,
                 onClickNotification = {
-                    // TODO (Step 5.2): Navigate to inner-module NotificationScreenDestination using navBackStack.add(...)
                     runCatching {
                         navBackStack.add(NotificationScreenDestination)
                     }.onFailure {
@@ -132,11 +142,11 @@ fun DashboardScreen(
         content = {
             DashboardScreenContent(
                 modifier = Modifier.padding(it),
-                state = state.copy(isBalanceVisible = localIsBalanceVisible),
+                state = state,
                 event = { screenEvent ->
                     when (screenEvent) {
                         DashboardScreenEvent.OnManageClicked -> {
-                            Toast.makeText(context, "Manage Favorites", Toast.LENGTH_SHORT).show()
+                            onEvent(screenEvent)
                         }
 
                         DashboardScreenEvent.OnMenuClicked -> {
@@ -144,11 +154,10 @@ fun DashboardScreen(
                         }
 
                         DashboardScreenEvent.OnRepeatClicked -> {
-                            Toast.makeText(context, "Repeat Transaction", Toast.LENGTH_SHORT).show()
+                            onEvent(screenEvent)
                         }
 
                         DashboardScreenEvent.OnViewAllClicked -> {
-                            // TODO (Step 5.2): Navigate to inner-module TransactionScreenDestination
                             runCatching {
                                 navBackStack.add(TransactionScreenDestination)
                             }.onFailure {
@@ -161,7 +170,7 @@ fun DashboardScreen(
                         }
 
                         DashboardScreenEvent.OnToggleBalanceVisibility -> {
-                            localIsBalanceVisible = !localIsBalanceVisible
+                            onEvent(screenEvent)
                         }
 
                         DashboardScreenEvent.OnNotificationClicked -> {
@@ -176,8 +185,8 @@ fun DashboardScreen(
                             }
                         }
 
-                        DashboardScreenEvent.OnLoadDashboard -> {}
-                        DashboardScreenEvent.OnClearMessage -> {}
+                        DashboardScreenEvent.OnLoadDashboard -> onEvent(screenEvent)
+                        DashboardScreenEvent.OnClearMessage -> onEvent(screenEvent)
                     }
                 },
             )
@@ -185,7 +194,6 @@ fun DashboardScreen(
         bottomBar = {
             BottomNavBar(
                 onClick = {
-                    // Navigate to Profile/Settings on profile tab
                     runCatching {
                         navBackStack.add(SettingScreenDestination)
                     }.onFailure {
