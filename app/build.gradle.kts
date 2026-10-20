@@ -4,7 +4,6 @@ plugins {
     // Android
     alias(libs.plugins.android.application)
     // Kotlin
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
@@ -15,7 +14,7 @@ plugins {
 android {
     namespace = "com.outivox.myabc"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
