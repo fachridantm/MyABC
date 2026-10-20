@@ -4,7 +4,6 @@ plugins {
     // Android
     alias(libs.plugins.android.library)
     // Kotlin
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
@@ -15,7 +14,7 @@ plugins {
 android {
     namespace = "com.outivox.core"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
@@ -111,8 +110,8 @@ dependencies {
     api(libs.androidx.material3.windowsizeclass)
 
     // Compose Testing
-    testApi(libs.androidx.compose.test.manifest)
-    testApi(libs.androidx.compose.test.junit4)
+    testImplementation(libs.androidx.compose.test.manifest)
+    testImplementation(libs.androidx.compose.test.junit4)
 
     // Compose Navigation
     api(libs.androidx.navigation.compose)
