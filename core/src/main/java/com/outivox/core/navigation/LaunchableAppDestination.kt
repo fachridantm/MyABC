@@ -26,3 +26,6 @@ data object TransactionScreenDestination : NavigationDestination()
 
 @Serializable
 data object SettingScreenDestination : NavigationDestination()
+
+@Serializable
+data class SettingDetailScreenDestination(val settingTitle: String) : NavigationDestination()

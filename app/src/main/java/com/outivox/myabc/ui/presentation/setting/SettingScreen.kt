@@ -23,20 +23,23 @@ import com.outivox.myabc.ui.organisms.ProfileComponentAttribute
 import com.outivox.myabc.ui.organisms.SettingMenuSection
 import com.outivox.myabc.ui.organisms.SettingMenuSectionAttribute
 
-private data class SettingScreenState(
+// TODO (Step 2.3): Expose SettingScreen UDF contracts and handle menu clicks.
+// State flows down into SettingScreenContent; user events flow up via SettingScreenEvent.
+data class SettingScreenState(
     @DrawableRes val userAvatar: Int = 0,
     val userName: String = "",
     val userEmail: String = "",
     val settingMenuList: List<SettingMenuSectionAttribute> = emptyList(),
 )
 
-private sealed class SettingScreenEvent {
+sealed class SettingScreenEvent {
     data object OnBackPressed : SettingScreenEvent()
     data object OnLogoutClicked : SettingScreenEvent()
+    data class OnSettingItemClicked(val title: String) : SettingScreenEvent()
 }
 
 @Composable
-private fun SettingScreen(
+fun SettingScreen(
     state: SettingScreenState = SettingScreenState(),
     event: (SettingScreenEvent) -> Unit = {},
 ) {
@@ -56,6 +59,9 @@ private fun SettingScreen(
             SettingScreenContent(
                 modifier = Modifier.padding(it),
                 state = state,
+                onItemClick = { title ->
+                    event(SettingScreenEvent.OnSettingItemClicked(title))
+                },
             )
         },
         bottomBar = {
@@ -75,7 +81,11 @@ private fun SettingScreen(
 }
 
 @Composable
-private fun SettingScreenContent(modifier: Modifier, state: SettingScreenState) {
+private fun SettingScreenContent(
+    modifier: Modifier,
+    state: SettingScreenState,
+    onItemClick: (String) -> Unit = {},
+) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -92,7 +102,10 @@ private fun SettingScreenContent(modifier: Modifier, state: SettingScreenState) 
         }
 
         items(state.settingMenuList) { section ->
-            SettingMenuSection(attribute = section)
+            SettingMenuSection(
+                attribute = section,
+                onItemClick = onItemClick,
+            )
         }
     }
 }

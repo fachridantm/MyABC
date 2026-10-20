@@ -53,6 +53,10 @@ private val LightColorScheme = lightColorScheme(
     onBackground = colorOnBackground,
 )
 
+// =============================================================================
+// TODO (Step 4.1): Configure Material Design 3 ColorScheme & Typography in MyABCTheme.
+// MaterialTheme provides ambient design tokens (ColorScheme, Typography, Shapes).
+// =============================================================================
 @Composable
 fun MyABCTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

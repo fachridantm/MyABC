@@ -31,6 +31,11 @@ fun SplashScreen(
     val navBackStack = LocalNavBackStack.current
     val context = LocalContext.current
 
+    // =========================================================================
+    // TODO (Step 3.1): Use LaunchedEffect for one-shot initialization and reactive navigation.
+    // LaunchedEffect(Unit) launches a coroutine once upon entering the composition.
+    // LaunchedEffect(initState) observes state changes and handles side-effect navigation.
+    // =========================================================================
     LaunchedEffect(Unit) {
         splashViewModel.init()
     }

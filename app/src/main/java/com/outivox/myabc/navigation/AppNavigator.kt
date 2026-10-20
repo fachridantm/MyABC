@@ -27,6 +27,10 @@ fun AppNavigator() {
         onBack = {
             navBackStack.removeLastOrNull()
         },
+        // =====================================================================
+        // TODO (Step 6.1): Combine inter-module navigation graphs (mainNavGraph & authNavGraph)
+        // inside NavDisplay entryProvider.
+        // =====================================================================
         entryProvider = entryProvider {
             mainNavGraph()
             authNavGraph()

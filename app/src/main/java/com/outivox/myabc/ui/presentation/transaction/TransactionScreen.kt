@@ -22,21 +22,23 @@ import com.outivox.myabc.ui.organisms.TransactionHistorySection
 import com.outivox.myabc.ui.organisms.TransactionHistorySectionAttribute
 import com.outivox.myabc.ui.organisms.TransactionResourceItemAttribute
 
-private data class TransactionScreenState(
+// TODO (Step 2.2): Expose TransactionScreen UDF contracts and handle chip filtering.
+// State flows down into TransactionScreenContent; user events flow up via TransactionScreenEvent.
+data class TransactionScreenState(
     val accountBalance: String = "",
     val accountNumber: String = "",
     val chipList: List<ChipAttribute> = emptyList(),
     val transactionList: List<TransactionHistorySectionAttribute> = emptyList(),
 )
 
-private sealed class TransactionScreenEvent {
+sealed class TransactionScreenEvent {
     data object OnBackPressed : TransactionScreenEvent()
     data class OnChipClicked(val item: ChipAttribute) : TransactionScreenEvent()
     data object OnSearchClicked : TransactionScreenEvent()
 }
 
 @Composable
-private fun TransactionScreen(
+fun TransactionScreen(
     state: TransactionScreenState = TransactionScreenState(),
     event: (TransactionScreenEvent) -> Unit = {},
 ) {

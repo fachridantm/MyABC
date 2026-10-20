@@ -16,11 +16,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.outivox.core.navigation.NotificationScreenDestination
+import com.outivox.core.navigation.SettingScreenDestination
+import com.outivox.core.navigation.TransactionScreenDestination
 import com.outivox.core.theme.MyABCTheme
 import com.outivox.core.util.LocalNavBackStack
 import com.outivox.myabc.R
@@ -47,24 +53,38 @@ import com.outivox.myabc.ui.presentation.dashboard.bottomsheet.BottomSheetDashbo
 
 private const val TAG = "DashboardScreen"
 
+// TODO (Step 2.1): Complete Unidirectional Data Flow (UDF) State & Event contracts.
+// State represents immutable snapshots flowing down; Events represent user actions flowing up.
 data class DashboardScreenState(
     @DrawableRes val userAvatar: Int = 0,
     val userName: String = "",
     val totalBalance: String = "",
     val accountNumber: String = "",
+    val isBalanceVisible: Boolean = true,
+    val isLoading: Boolean = false,
+    val userMessage: String? = null,
     val menuList: List<MenuCardAttribute> = emptyList(),
     val paymentList: List<BillSectionResourceItemAttribute> = emptyList(),
     val favoriteList: List<FavoriteSectionResourceItemAttribute> = emptyList(),
 )
 
 sealed class DashboardScreenEvent {
+    data object OnLoadDashboard : DashboardScreenEvent()
     data object OnBackPressed : DashboardScreenEvent()
     data object OnMenuClicked : DashboardScreenEvent()
     data object OnViewAllClicked : DashboardScreenEvent()
     data object OnManageClicked : DashboardScreenEvent()
     data object OnRepeatClicked : DashboardScreenEvent()
+    data object OnToggleBalanceVisibility : DashboardScreenEvent()
+    data object OnNotificationClicked : DashboardScreenEvent()
+    data class OnBottomNavClicked(val title: String) : DashboardScreenEvent()
+    data object OnClearMessage : DashboardScreenEvent()
 }
 
+// TODO (Step 1.2): Hoist UI state in DashboardScreen and pass down to stateless children.
+// TODO (Step 1.3): Flow vs StateFlow vs MutableState:
+// 1. MutableState<T> (`remember { mutableStateOf(...) }`): fine-grained Compose UI state.
+// 2. StateFlow<T>: hot reactive observable stream from ViewModels, collected safely with `collectAsStateWithLifecycle()`.
 @Composable
 fun DashboardScreen(
     state: DashboardScreenState = DashboardScreenState(),
@@ -74,6 +94,21 @@ fun DashboardScreen(
     val navBackStack = LocalNavBackStack.current
 
     var showBottomSheet by remember { mutableStateOf(false) }
+    var localIsBalanceVisible by remember { mutableStateOf(state.isBalanceVisible) }
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // TODO (Step 3.2): Trigger initial dashboard data load using LaunchedEffect(Unit).
+    // Executes once when entering composition; restarts only if key changes.
+    LaunchedEffect(Unit) {
+        Log.i(TAG, "DashboardScreen entered composition: Initializing dashboard data")
+    }
+
+    // TODO (Step 3.3): Display one-off feedback using SnackbarHostState and LaunchedEffect.
+    LaunchedEffect(state.userMessage) {
+        state.userMessage?.let { message ->
+            snackbarHostState.showSnackbar(message)
+        }
+    }
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
@@ -83,6 +118,7 @@ fun DashboardScreen(
                 userAvatar = state.userAvatar,
                 userName = state.userName,
                 onClickNotification = {
+                    // TODO (Step 5.2): Navigate to inner-module NotificationScreenDestination using navBackStack.add(...)
                     runCatching {
                         navBackStack.add(NotificationScreenDestination)
                     }.onFailure {
@@ -92,14 +128,15 @@ fun DashboardScreen(
                 },
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         content = {
             DashboardScreenContent(
                 modifier = Modifier.padding(it),
-                state = state,
+                state = state.copy(isBalanceVisible = localIsBalanceVisible),
                 event = { screenEvent ->
                     when (screenEvent) {
                         DashboardScreenEvent.OnManageClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Manage Favorites", Toast.LENGTH_SHORT).show()
                         }
 
                         DashboardScreenEvent.OnMenuClicked -> {
@@ -107,16 +144,40 @@ fun DashboardScreen(
                         }
 
                         DashboardScreenEvent.OnRepeatClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Repeat Transaction", Toast.LENGTH_SHORT).show()
                         }
 
                         DashboardScreenEvent.OnViewAllClicked -> {
-                            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                            // TODO (Step 5.2): Navigate to inner-module TransactionScreenDestination
+                            runCatching {
+                                navBackStack.add(TransactionScreenDestination)
+                            }.onFailure {
+                                Log.e(TAG, "Failed to navigate to transactions", it)
+                            }
                         }
 
                         DashboardScreenEvent.OnBackPressed -> {
                             activity?.finishAndRemoveTask()
                         }
+
+                        DashboardScreenEvent.OnToggleBalanceVisibility -> {
+                            localIsBalanceVisible = !localIsBalanceVisible
+                        }
+
+                        DashboardScreenEvent.OnNotificationClicked -> {
+                            navBackStack.add(NotificationScreenDestination)
+                        }
+
+                        is DashboardScreenEvent.OnBottomNavClicked -> {
+                            when (screenEvent.title) {
+                                "History" -> navBackStack.add(TransactionScreenDestination)
+                                "Profile" -> navBackStack.add(SettingScreenDestination)
+                                else -> Toast.makeText(context, screenEvent.title, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        DashboardScreenEvent.OnLoadDashboard -> {}
+                        DashboardScreenEvent.OnClearMessage -> {}
                     }
                 },
             )
@@ -124,7 +185,12 @@ fun DashboardScreen(
         bottomBar = {
             BottomNavBar(
                 onClick = {
-                    Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                    // Navigate to Profile/Settings on profile tab
+                    runCatching {
+                        navBackStack.add(SettingScreenDestination)
+                    }.onFailure {
+                        Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+                    }
                 },
             )
         },
@@ -183,6 +249,10 @@ private fun DashboardScreenContent(
                 modifier = Modifier.padding(16.dp),
                 balance = state.totalBalance,
                 accountNumber = state.accountNumber,
+                isBalanceVisible = state.isBalanceVisible,
+                onToggleVisibility = {
+                    event(DashboardScreenEvent.OnToggleBalanceVisibility)
+                },
             )
         }
         item {

@@ -2,6 +2,7 @@ package com.outivox.myabc.ui.organisms
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider
@@ -33,8 +34,13 @@ data class SettingMenuSectionAttribute(
     val itemList: List<MenuResourceItemAttribute> = emptyList(),
 )
 
+// TODO (Step 2.3): Support onItemClick callback for individual menu items.
+// In UDF architecture, child organisms emit click events upward to the parent screen.
 @Composable
-fun SettingMenuSection(attribute: SettingMenuSectionAttribute) {
+fun SettingMenuSection(
+    attribute: SettingMenuSectionAttribute,
+    onItemClick: ((String) -> Unit)? = null,
+) {
     Column(
         modifier = Modifier.background(Color.White),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -47,6 +53,9 @@ fun SettingMenuSection(attribute: SettingMenuSectionAttribute) {
 
         attribute.itemList.forEachIndexed { index, item ->
             ResourceItem(
+                modifier = Modifier.clickable {
+                    onItemClick?.invoke(item.label)
+                },
                 attribute = ResourceItemAttribute(
                     label = item.label,
                     description = item.description,

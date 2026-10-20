@@ -72,7 +72,10 @@ class SecondRoute(
         return BottomSheetFooterState(
             textPrimary = "Next",
             onPrimaryButtonClicked = {
-//                Toast.makeText(context, "End of the route", Toast.LENGTH_SHORT).show()
+                // =============================================================
+                // TODO (Step 6.3): Navigate from nested Modal Bottom Sheet back stack
+                // to LaunchableSampleScreenDestination on the root NavBackStack.
+                // =============================================================
                 onCancel()
                 navBackStack.add(LaunchableSampleScreenDestination)
             }

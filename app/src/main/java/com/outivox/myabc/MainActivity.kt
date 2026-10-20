@@ -61,6 +61,9 @@ class MainActivity : ComponentActivity() {
             navBackStack = rememberNavBackStack(SplashScreenDestination)
             splashScreen.setKeepOnScreenCondition { navBackStack.last() is SplashScreenDestination }
 
+            // =================================================================
+            // TODO (Step 4.2): Provide MyABCTheme and LocalNavBackStack via CompositionLocalProvider
+            // =================================================================
             MyABCTheme {
                 CompositionLocalProvider(
                     LocalNavBackStack provides navBackStack,

@@ -18,6 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.outivox.authentication.R
 import com.outivox.core.deeplink.DeeplinkHandler
 import com.outivox.core.deeplink.DeeplinkStartState
+import com.outivox.core.navigation.DashboardScreenDestination
 import com.outivox.core.navigation.NavigationViewModel
 import com.outivox.core.theme.MyABCTheme
 import com.outivox.core.util.LocalNavBackStack
@@ -38,14 +39,23 @@ fun LoginScreen(
 
     LoginScreenContent(
         onLoginClicked = {
-            deeplink?.uri?.let { uri ->
-                DeeplinkHandler.handleDeeplink(
-                    uri = uri,
-                    startState = DeeplinkStartState.WARM_HOT_START,
-                    navBackStack = navBackStack,
-                    navigationViewModel = navigationViewModel,
-                    isLoggedIn = true
-                )
+            // TODO (Step 6.2): Inter-module navigation from :authentication to :app.
+            // If a deferred deeplink is present, navigate to it; otherwise navigate to DashboardScreenDestination.
+            if (deeplink?.uri != null) {
+                deeplink?.uri?.let { uri ->
+                    DeeplinkHandler.handleDeeplink(
+                        uri = uri,
+                        startState = DeeplinkStartState.WARM_HOT_START,
+                        navBackStack = navBackStack,
+                        navigationViewModel = navigationViewModel,
+                        isLoggedIn = true
+                    )
+                }
+            } else {
+                navBackStack.apply {
+                    clear()
+                    add(DashboardScreenDestination(""))
+                }
             }
         }
     )

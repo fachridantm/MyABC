@@ -18,8 +18,19 @@ import com.outivox.core.theme.colorOnPrimaryContainer
 import com.outivox.core.theme.colorOnTertiaryContainer
 import com.outivox.core.theme.colorPrimaryContainer
 
+// TODO (Step 1.1): Apply State Hoisting to SummaryCard.
+// Hoist internal state out of the Composable by accepting `isBalanceVisible: Boolean = true`
+// and `onToggleVisibility: () -> Unit = {}`. This transforms SummaryCard into a pure Stateless Composable:
+// 1. If `isBalanceVisible` is true, render the actual balance; otherwise display masked "••••••".
+// 2. Add a clickable label or icon (e.g. "Hide" / "Show") in the header row that invokes `onToggleVisibility`.
 @Composable
-fun SummaryCard(modifier: Modifier = Modifier, balance: String, accountNumber: String) {
+fun SummaryCard(
+    modifier: Modifier = Modifier,
+    balance: String,
+    accountNumber: String,
+    isBalanceVisible: Boolean = true,
+    onToggleVisibility: () -> Unit = {},
+) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = colorPrimaryContainer),
@@ -32,7 +43,12 @@ fun SummaryCard(modifier: Modifier = Modifier, balance: String, accountNumber: S
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(text = "Total Balance", fontSize = 16.sp, color = colorOnPrimaryContainer)
-            Text(text = balance, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colorOnPrimaryContainer)
+            Text(
+                text = if (isBalanceVisible) balance else "••••••",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorOnPrimaryContainer,
+            )
             Column {
                 Text(text = "Checking Account", fontSize = 16.sp, color = colorOnPrimaryContainer)
                 Text(text = accountNumber, fontSize = 14.sp, color = colorOnTertiaryContainer)
