@@ -4,7 +4,6 @@ plugins {
     // Android
     alias(libs.plugins.android.library)
     // Kotlin
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -12,7 +11,7 @@ plugins {
 android {
     namespace = "com.outivox.authentication"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
