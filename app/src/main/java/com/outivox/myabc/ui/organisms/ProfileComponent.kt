@@ -19,10 +19,17 @@ import com.outivox.myabc.ui.atoms.Avatar
 
 
 data class ProfileComponentAttribute(
-    @DrawableRes val avatarImageRes: Int,
-    val userName: String,
-    val userEmail: String,
-)
+    @DrawableRes val avatarImageRes: Int = 0,
+    val userName: String = "",
+    val userEmail: String = "",
+    @DrawableRes val imageRes: Int = avatarImageRes,
+    val name: String = userName,
+    val email: String = userEmail,
+) {
+    val displayImageRes: Int get() = if (avatarImageRes != 0) avatarImageRes else imageRes
+    val displayName: String get() = userName.ifEmpty { name }
+    val displayEmail: String get() = userEmail.ifEmpty { email }
+}
 
 @Composable
 fun ProfileComponent(modifier: Modifier = Modifier, attribute: ProfileComponentAttribute) {
@@ -31,10 +38,10 @@ fun ProfileComponent(modifier: Modifier = Modifier, attribute: ProfileComponentA
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Avatar(imageRes = attribute.avatarImageRes, size = 72.dp)
+        Avatar(imageRes = attribute.displayImageRes, size = 72.dp)
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(text = attribute.userName, fontWeight = FontWeight.Bold, fontSize = 28.sp)
-            Text(text = attribute.userEmail, fontSize = 18.sp, color = colorOnTertiaryContainer)
+            Text(text = attribute.displayName, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+            Text(text = attribute.displayEmail, fontSize = 18.sp, color = colorOnTertiaryContainer)
         }
     }
 }

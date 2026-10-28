@@ -1,8 +1,5 @@
 package com.outivox.myabc.ui.presentation.setting
 
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +17,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidViewBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.outivox.myabc.R
 import com.outivox.myabc.databinding.LayoutSettingScreenBinding
 import com.outivox.myabc.ui.organisms.HeaderPage
@@ -59,6 +57,10 @@ fun SettingScreen(
     event: (SettingScreenEvent) -> Unit = {},
 ) {
     // TODO (Step 3.1): Replace AndroidViewBinding with pure Jetpack Compose Scaffold:
+    // BackHandler {
+    //     event(SettingScreenEvent.OnBackPressed)
+    // }
+    //
     // Scaffold(
     //     modifier = Modifier.systemBarsPadding(),
     //     containerColor = Color.White,
@@ -66,12 +68,14 @@ fun SettingScreen(
     //         HeaderPage(
     //             title = "Settings",
     //             leadingIconRes = R.drawable.ic_arrow_left,
-    //             onClickLeadingIcon = { event(SettingScreenEvent.OnBackPressed) }
+    //             onClickLeadingIcon = {
+    //                 event(SettingScreenEvent.OnBackPressed)
+    //             },
     //         )
     //     },
-    //     content = {
+    //     content = { paddingValues ->
     //         SettingScreenContent(
-    //             modifier = Modifier.padding(it),
+    //             modifier = Modifier.padding(paddingValues),
     //             state = state,
     //         )
     //     },
@@ -80,9 +84,11 @@ fun SettingScreen(
     //             modifier = Modifier.padding(16.dp),
     //             text = "Logout",
     //             leadingIconRes = R.drawable.ic_logout_outline,
-    //             onClick = { event(SettingScreenEvent.OnLogoutClicked) }
+    //             onClick = {
+    //                 event(SettingScreenEvent.OnLogoutClicked)
+    //             },
     //         )
-    //     }
+    //     },
     // )
 
     AndroidViewBinding(
@@ -103,28 +109,14 @@ fun SettingScreen(
         tvUserName.text = state.userName
         tvUserEmail.text = state.userEmail
 
-        // Bind legacy XML Menu Sections dynamically (only add if container is empty to avoid re-layout cycles)
-        if (xmlMenuSectionsContainer.childCount == 0 && state.settingMenuList.isNotEmpty()) {
-            state.settingMenuList.forEach { section ->
-                val sectionTitle = TextView(root.context).apply {
-                    text = section.title
-                    setTextColor(android.graphics.Color.parseColor("#007BFF"))
-                    textSize = 14f
-                    setTypeface(null, android.graphics.Typeface.BOLD)
-                    setPadding(0, 24, 0, 12)
-                }
-                xmlMenuSectionsContainer.addView(sectionTitle)
-
-                section.itemList.forEach { item ->
-                    val itemView = TextView(root.context).apply {
-                        text = "${item.label}${if (item.description != null) "\n" + item.description else ""}"
-                        setTextColor(android.graphics.Color.parseColor("#343A40"))
-                        textSize = 16f
-                        setPadding(16, 20, 16, 20)
-                    }
-                    xmlMenuSectionsContainer.addView(itemView)
-                }
+        // Legacy XML RecyclerView Setup
+        if (rvSettingMenu.adapter == null) {
+            val settingAdapter = SettingMenuAdapter { menuItem ->
+                // Handle menu click
             }
+            rvSettingMenu.layoutManager = LinearLayoutManager(root.context)
+            rvSettingMenu.adapter = settingAdapter
+            settingAdapter.submitList(state.settingMenuList)
         }
 
         // Bind legacy XML Logout Button
@@ -170,22 +162,21 @@ fun SettingScreen(
         //     setContent {
         //         ProfileComponent(
         //             attribute = ProfileComponentAttribute(
-        //                 avatarImageRes = state.userAvatar,
-        //                 userName = state.userName,
-        //                 userEmail = state.userEmail,
+        //                 imageRes = state.userAvatar,
+        //                 name = state.userName,
+        //                 email = state.userEmail,
         //             )
         //         )
         //     }
         // }
-        // xmlMenuSectionsContainer.visibility = android.view.View.GONE
+        //
+        // rvSettingMenu.visibility = android.view.View.GONE
         // composeMenuSections.apply {
         //     visibility = android.view.View.VISIBLE
         //     setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         //     setContent {
-        //         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        //             state.settingMenuList.forEach { section ->
-        //                 SettingMenuSection(attribute = section)
-        //             }
+        //         state.settingMenuList.forEach { section ->
+        //             SettingMenuSection(attribute = section)
         //         }
         //     }
         // }
@@ -199,32 +190,40 @@ fun SettingScreen(
 
 // TODO (Step 3.2): Implement pure Compose SettingScreenContent with LazyColumn
 @Composable
-fun SettingScreenContent(modifier: Modifier = Modifier, state: SettingScreenState) {
+fun SettingScreenContent(
+    modifier: Modifier = Modifier,
+    state: SettingScreenState = SettingScreenState(),
+) {
     LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
             ProfileComponent(
                 attribute = ProfileComponentAttribute(
-                    avatarImageRes = state.userAvatar,
-                    userName = state.userName,
-                    userEmail = state.userEmail,
+                    imageRes = state.userAvatar,
+                    name = state.userName,
+                    email = state.userEmail,
                 ),
             )
         }
 
-        items(state.settingMenuList) { section ->
-            SettingMenuSection(attribute = section)
+        items(
+            items = state.settingMenuList,
+            key = { it.title },
+        ) { section ->
+            SettingMenuSection(
+                attribute = section,
+            )
         }
     }
 }
 
 // TODO (Step 3.3): Add Android Studio Design Preview for SettingScreen
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun SettingScreenPreview() {
+private fun SettingScreenPreview() {
     SettingScreen(
         state = SettingScreenState(
             userAvatar = R.drawable.img_man_side_view,
